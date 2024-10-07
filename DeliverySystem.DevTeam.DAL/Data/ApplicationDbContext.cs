@@ -21,5 +21,7 @@ namespace DeliverySystem.DevTeam.DAL.Data
 		{
 			base.OnModelCreating(builder);
 		}
+
+		public DbSet<Product> Products { get; set; }
 	}
 }
