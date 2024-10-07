@@ -79,7 +79,15 @@
                             <tr>
                                 <td>@item.Name</td>
                                 <td>@item.Description</td>
-                                <td>@item.IsDeleted</td>
+                                <td>
+
+                                    <span class="badge badge-@(item.IsDeleted ? "danger" : "primary") badge-sm">
+
+
+                                        @(item.IsDeleted ? "Deleted" : "Available")
+                                    </span>
+                                
+                                </td>
                                 <td>@item.Price</td>
                                 <td>@item.QuantityAvailable</td>
                                 <td>@item.CreatedOn</td>
