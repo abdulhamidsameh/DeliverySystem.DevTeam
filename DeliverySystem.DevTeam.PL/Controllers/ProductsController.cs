@@ -1,7 +1,7 @@
 ﻿
 
-using DeliverySystem.DevTeam.BLL.ViewModels.Products;
 using DeliverySystem.DevTeam.DAL.Models;
+using DeliverySystem.DevTeam.PL.ViewModels.Products;
 
 
 namespace DeliverySystem.DevTeam.PL.Controllers
