@@ -2,6 +2,7 @@
 
 using DeliverySystem.DevTeam.DAL.Models;
 using DeliverySystem.DevTeam.PL.ViewModels.Products;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace DeliverySystem.DevTeam.PL.Controllers
@@ -18,7 +19,7 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 
         public IActionResult Index()
         {
-            var Products = _DbContext.Products.ToList();
+            var Products = _DbContext.Products.AsNoTracking().ToList();
 
             return View(Products);
         }
@@ -107,6 +108,25 @@ namespace DeliverySystem.DevTeam.PL.Controllers
         #endregion
 
 
+
+        #region Toggle Status 
+
+
+        public IActionResult ToggleStatus(int id)
+        {
+
+            var product = _DbContext.Products.Find(id);
+            if (product == null) { return NotFound(); };
+
+            product.IsDeleted = !product.IsDeleted;
+            product.LastUpdatedOn =DateTime.Now;
+            _DbContext.SaveChanges();
+
+            return Ok(product.LastUpdatedOn.ToString());
+        }
+
+
+        #endregion
 
     }
 
