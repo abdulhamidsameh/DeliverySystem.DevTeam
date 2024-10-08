@@ -11,5 +11,6 @@ namespace DeliverySystem.DevTeam.DAL.Models
 		public int QuantityAvailable { get; set; }
 		public DateTime CreatedOn { get; set; } = DateTime.Now;
 		public DateTime? LastUpdatedOn { get; set; }
+       //Public int MyProperty { get; set; }
 	}
 }
