@@ -58,6 +58,8 @@
             </div>
         }
 
+        else{
+
         <div class="py-5 pb-6">
             <div class="table-responsive">
                 <table class="table table-row-bordered gy-7">
@@ -86,7 +88,7 @@
 
                                         @(item.IsDeleted ? "Deleted" : "Available")
                                     </span>
-                                
+
                                 </td>
                                 <td>@item.Price</td>
                                 <td>@item.QuantityAvailable</td>
@@ -95,8 +97,7 @@
                                 <td>
 
 
-                                    <a  
-                                       asp-action="Edit" asp-controller="Products" asp-route-id="@item.Id" class=" btn btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary">
+                                    <a asp-action="Edit" asp-controller="Products" asp-route-id="@item.Id" class=" btn btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary">
 
                                         Edit
                                     </a>
@@ -109,11 +110,13 @@
             </div>
         </div>
 
+        
+        }
+
+        
 
 
     </div>
-    <div class="card-footer">
-        Footer
-    </div>
+   
 </div>
 

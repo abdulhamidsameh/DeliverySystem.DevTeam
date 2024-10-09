@@ -1,9 +1,8 @@
 ﻿
 namespace DeliverySystem.DevTeam.DAL.Models
 {
-	public class Product
-	{
-		public int Id { get; set; }
+	public class Product : BaseEntity
+	{ 
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public bool IsDeleted { get; set; }
@@ -11,6 +10,5 @@ namespace DeliverySystem.DevTeam.DAL.Models
 		public int QuantityAvailable { get; set; }
 		public DateTime CreatedOn { get; set; } = DateTime.Now;
 		public DateTime? LastUpdatedOn { get; set; }
-      
 	}
 }
