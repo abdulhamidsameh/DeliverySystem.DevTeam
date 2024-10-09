@@ -85,7 +85,7 @@
                                 <td>@item.Price</td>
                                 <td>@item.QuantityAvailable</td>
                                 <td>@item.CreatedOn</td>
-                                <td>@item.LastUpdatedOn</td>
+                                <td class="js-update">@item.LastUpdatedOn</td>
                                 <td>
 
 
@@ -102,8 +102,8 @@
                                             </svg>
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item " href="JavaScrips:;">Edit</a></li>
-                                            <li><a class="dropdown-item Js-toggle-status" data-id="@item.Id" href="JavaScript:;">Toggle status</a></li>
+                                            <li><a  asp-action="Edit" asp-route-id="@item.Id"   class="dropdown-item ">Edit</a></li>
+                                            <li><a   class="dropdown-item Js-toggle-status" data-id="@item.Id" href="JavaScript:;">Toggle status</a></li>
 
                                         </ul>
                                     </div>
@@ -134,19 +134,46 @@
                 var id = btn.data('id');
 
 
-                $.post({
-                    url: '/Products/ToggleStatus/' + id,
+                bootbox.confirm({
+                    message: 'Are you sure you want to change the status of this product?',
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function (result) {
 
-                    success: function () {
+                        if (result){
+                            $.post({
+                                url: '/Products/ToggleStatus/' + id,
 
-                        var status = btn.parents('tr').find('.js-status');
-                        var NewStatus = status.text().trim() === 'Deleted' ? 'Available' : 'Deleted'
-                        status.text(NewStatus).toggleClass('badge badge-danger badge badge-primary');
-                       
-                    }
+                                success: function (LastUpdatedOn) {
+                                    // js-update
+                                    var row = btn.parents('tr');
+                                    var status = row.find('.js-status');
+                                    var NewStatus = status.text().trim() === 'Deleted' ? 'Available' : 'Deleted'
+                                    status.text(NewStatus).toggleClass('badge badge-danger badge badge-primary');
+                                    row.find('.js-update').html(LastUpdatedOn);
+                                    row.addClass('animate__animated animate__bounce');
+                                    ShowSuccessFullyMessage();
+                                },
+
+                                error : function(){
 
 
+                                    ShowErrorMessage();
+                                }
+                            });
+                        }
+                            }
                 });
+
+               
 
 
             });
