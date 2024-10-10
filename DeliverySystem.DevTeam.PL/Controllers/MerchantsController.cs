@@ -1,4 +1,5 @@
 ﻿using DeliverySystem.DevTeam.BLL.ViewModels.Merchant;
+using DeliverySystem.DevTeam.BLL.ViewModels.Products;
 using DeliverySystem.DevTeam.DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,7 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 		}
         public IActionResult Index()
 		{
-			var merchants = _dbContext.Merchants.AsNoTracking().ToList();
+			var merchants = _dbContext.Merchants.ToList();
 			return View(merchants);
 		}
 
@@ -73,9 +74,9 @@ namespace DeliverySystem.DevTeam.PL.Controllers
         }
 
         [HttpPost]
-        public  IActionResult Edit(CreatedOrUpdatedMerchantViewModel model)
+        public IActionResult Edit(CreatedOrUpdatedMerchantViewModel model)
         {
-            var merchant =  _dbContext.Merchants.Find(model.Id);
+            var merchant = _dbContext.Merchants.Find(model.Id);
 
             if (merchant != null)
             {
@@ -91,22 +92,6 @@ namespace DeliverySystem.DevTeam.PL.Controllers
             return NotFound();
 
         }
-
-
-        public  IActionResult Delete(int id)
-        {
-            var merchant =  _dbContext.Merchants.Find(id);
-            if (merchant is not null)
-            {
-                _dbContext.Merchants.Remove(merchant);
-                _dbContext.SaveChangesAsync();
-                return RedirectToAction("Index");
-               
-            }
-            return NotFound();
-
-        }
-
 
 
 

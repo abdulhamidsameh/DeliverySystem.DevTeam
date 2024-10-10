@@ -4,7 +4,7 @@
 
 
 @{
-	ViewData["Title"] = $"{(Model?.Id > 0 ? "Edit" : "Add")}  Merchant"; ;
+	ViewData["Title"] = $"{(Model?.Id > 0 ? "Edit" : "Add")}  Product"; ;
 }
 
 
@@ -47,10 +47,7 @@
 				<span class="text-danger" asp-validation-for="PhoneNumber"></span>
 			</div>
 
-			<button type="submit" class="btn btn-sm btn-primary">
-				<i class="bi bi-check2"></i>
-				Save
-			</button>
+			<button type="submit" class="btn btn-primary">Save</button>
 		</form>
 	</div>
 

@@ -75,19 +75,14 @@
                             {
                                 <tr>
                                     <td>@item.Name</td>
-                                    <td>@item.Email</td>                            
+                                    <td>@item.Email</td>
+                                   
                                     <td>@item.PhoneNumber</td>
                                    
                                      <td>
                                         <a asp-action="Edit" asp-controller="Merchants" asp-route-id="@item.Id" class=" btn btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary">
 
                                             Edit
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a asp-action="Delete" asp-controller="Merchants" asp-route-id="@item.Id" class=" btn btn-outline btn-outline-dashed btn-outline-danger btn-active-light-primary">
-
-                                            Delete
                                         </a>
                                     </td>
                                 </tr>
