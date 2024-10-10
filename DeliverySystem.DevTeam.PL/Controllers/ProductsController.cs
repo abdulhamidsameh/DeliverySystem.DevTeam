@@ -1,6 +1,7 @@
 ﻿
 
 using DeliverySystem.DevTeam.DAL.Models;
+using DeliverySystem.DevTeam.PL.Filters;
 using DeliverySystem.DevTeam.PL.ViewModels.Products;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,10 +27,12 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 
 
         #region Add Product
+        [HttpGet]
+        [AjaxOnly]
         public IActionResult Create()
         {
 
-            return View("Form");
+            return PartialView("_Form");
 
         }
         [HttpPost]
@@ -47,17 +50,18 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 
 
                 _DbContext.Products.Add(product);
-                TempData["message"] = "Saved SuccessFully";
+                //TempData["message"] = "Saved SuccessFully";
 
                 _DbContext.SaveChanges();
+                return PartialView("_ProductRow", product);
+
             }
             else
             {
-                return View("Form", model);
+                return View("_Form", model);
             }
 
 
-            return RedirectToAction(nameof(Index));
 
         }
         #endregion
@@ -66,6 +70,8 @@ namespace DeliverySystem.DevTeam.PL.Controllers
         #region Edit
 
         [HttpGet]
+        [AjaxOnly]
+
         public IActionResult Edit(int id)
         {
             var Product = _DbContext.Products.Find(id);
@@ -82,7 +88,7 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 
                 };
 
-                return View("Form", Result);
+                return PartialView("_Form", Result);
             }
 
 
@@ -103,9 +109,10 @@ namespace DeliverySystem.DevTeam.PL.Controllers
                 Product.Description = model.Description;
                 Product.LastUpdatedOn = DateTime.Now;
                 _DbContext.SaveChanges();
-				TempData["message"] = "Saved SuccessFully";
+                //TempData["message"] = "Saved SuccessFully";
 
-				return RedirectToAction(nameof(Index));
+                return PartialView("_ProductRow", Product);
+
             }
 
 
