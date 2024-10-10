@@ -1,18 +1,16 @@
-﻿using DeliverySystem.DevTeam.DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using DeliverySystem.DevTeam.BLL.Specifications;
+using DeliverySystem.DevTeam.DAL.Models;
 namespace DeliverySystem.DevTeam.BLL.Interfaces
 {
-    public interface IGenericRepository<T> where T : BaseEntity
+	public interface IGenericRepository<T> where T : BaseEntity
     {
         IEnumerable<T> GetAll();
-        T GetById(int id);
+        T? GetById(int id);
         void Add(T entity);
         void Update(T entity);
         void Delete(T entity);
-    }
+		IEnumerable<T> GetAllWithSpec(ISpecification<T> spec);
+		T? GetWithSpec(ISpecification<T> spec);
+
+	}
 }

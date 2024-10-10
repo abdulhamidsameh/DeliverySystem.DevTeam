@@ -1,6 +1,4 @@
-﻿@using DeliverySystem.DevTeam.DAL.Models
-
-@model Product
+﻿@model Product
 
 
 <tr>
@@ -31,7 +29,6 @@
                 </svg>
             </a>
             <ul class="dropdown-menu">
-                <li><a  class="dropdown-item js-render-modal " data-url="/Products/Edit/@Model.Id" data-title="Edit Product" data-update=>Edit</a></li>
                 <li><a class="dropdown-item Js-toggle-status" data-id="@Model.Id" href="JavaScript:;">Toggle status</a></li>
 
             </ul>
