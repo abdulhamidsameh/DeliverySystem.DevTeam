@@ -1,4 +1,4 @@
-namespace DeliverySystem.DevTeam.PL.Models
+namespace DeliverySystem.DevTeam.PL.ViewModels
 {
 	public class ErrorViewModel
 	{
