@@ -18,7 +18,7 @@
             Products
         </h3>
         <div class="card-toolbar">
-            <a class="btn btn-sm btn-primary js-render-modal"  data-title="Add Product" data-url="/Products/Create">
+            <a class="btn btn-sm btn-primary js-render-modal" data-title="Add Product" data-url="/Products/Create">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square-dotted" viewBox="0 0 16 16">
                     <path d="M2.5 0q-.25 0-.487.048l.194.98A1.5 1.5 0 0 1 2.5 1h.458V0zm2.292 0h-.917v1h.917zm1.833 0h-.917v1h.917zm1.833 0h-.916v1h.916zm1.834 0h-.917v1h.917zm1.833 0h-.917v1h.917zM13.5 0h-.458v1h.458q.151 0 .293.029l.194-.981A2.5 2.5 0 0 0 13.5 0m2.079 1.11a2.5 2.5 0 0 0-.69-.689l-.556.831q.248.167.415.415l.83-.556zM1.11.421a2.5 2.5 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415zM16 2.5q0-.25-.048-.487l-.98.194q.027.141.028.293v.458h1zM.048 2.013A2.5 2.5 0 0 0 0 2.5v.458h1V2.5q0-.151.029-.293zM0 3.875v.917h1v-.917zm16 .917v-.917h-1v.917zM0 5.708v.917h1v-.917zm16 .917v-.917h-1v.917zM0 7.542v.916h1v-.916zm15 .916h1v-.916h-1zM0 9.375v.917h1v-.917zm16 .917v-.917h-1v.917zm-16 .916v.917h1v-.917zm16 .917v-.917h-1v.917zm-16 .917v.458q0 .25.048.487l.98-.194A1.5 1.5 0 0 1 1 13.5v-.458zm16 .458v-.458h-1v.458q0 .151-.029.293l.981.194Q16 13.75 16 13.5M.421 14.89c.183.272.417.506.69.689l.556-.831a1.5 1.5 0 0 1-.415-.415zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373Q2.25 16 2.5 16h.458v-1H2.5q-.151 0-.293-.029zM13.5 16q.25 0 .487-.048l-.194-.98A1.5 1.5 0 0 1 13.5 15h-.458v1zm-9.625 0h.917v-1h-.917zm1.833 0h.917v-1h-.917zm1.834-1v1h.916v-1zm1.833 1h.917v-1h-.917zm1.833 0h.917v-1h-.917zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
                 </svg>
@@ -52,8 +52,6 @@
             </div>
         }
 
-        else{
-
         <div class="py-5 pb-6">
             <div class="table-responsive">
                 <table class="table table-row-bordered gy-7">
@@ -72,45 +70,7 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>@item.Name</td>
-                                <td>@item.Description</td>
-                                <td>
-
-                                    <span class="badge badge-@(item.IsDeleted ? "danger" : "primary") badge-sm js-status">
-
-
-                                        @(item.IsDeleted ? "Deleted" : "Available")
-                                    </span>
-
-                                </td>
-                                <td>@item.Price</td>
-                                <td>@item.QuantityAvailable</td>
-                                <td>@item.CreatedOn</td>
-                                <td class="js-update">@item.LastUpdatedOn</td>
-                                <td>
-
-
-                                    @*          <a
-                                asp-action="Edit" asp-controller="Products" asp-route-id="@item.Id" class=" btn btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary">
-
-                                Edit
-                                </a> 
-                                    <div class="dropdown">
-                                        <a class="btn  btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <svg class="svg-icon svg-icon-2x svg-icon-primary" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M6 7H3C2.4 7 2 6.6 2 6V3C2 2.4 2.4 2 3 2H6C6.6 2 7 2.4 7 3V6C7 6.6 6.6 7 6 7Z" fill="currentColor" />
-                                                <path opacity="0.3" d="M13 7H10C9.4 7 9 6.6 9 6V3C9 2.4 9.4 2 10 2H13C13.6 2 14 2.4 14 3V6C14 6.6 13.6 7 13 7ZM21 6V3C21 2.4 20.6 2 20 2H17C16.4 2 16 2.4 16 3V6C16 6.6 16.4 7 17 7H20C20.6 7 21 6.6 21 6ZM7 13V10C7 9.4 6.6 9 6 9H3C2.4 9 2 9.4 2 10V13C2 13.6 2.4 14 3 14H6C6.6 14 7 13.6 7 13ZM14 13V10C14 9.4 13.6 9 13 9H10C9.4 9 9 9.4 9 10V13C9 13.6 9.4 14 10 14H13C13.6 14 14 13.6 14 13ZM21 13V10C21 9.4 20.6 9 20 9H17C16.4 9 16 9.4 16 10V13C16 13.6 16.4 14 17 14H20C20.6 14 21 13.6 21 13ZM7 20V17C7 16.4 6.6 16 6 16H3C2.4 16 2 16.4 2 17V20C2 20.6 2.4 21 3 21H6C6.6 21 7 20.6 7 20ZM14 20V17C14 16.4 13.6 16 13 16H10C9.4 16 9 16.4 9 17V20C9 20.6 9.4 21 10 21H13C13.6 21 14 20.6 14 20ZM21 20V17C21 16.4 20.6 16 20 16H17C16.4 16 16 16.4 16 17V20C16 20.6 16.4 21 17 21H20C20.6 21 21 20.6 21 20Z" fill="currentColor" />
-                                            </svg>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li><a  asp-action="Edit" asp-route-id="@item.Id"   class="dropdown-item ">Edit</a></li>
-                                            <li><a   class="dropdown-item Js-toggle-status" data-id="@item.Id" href="JavaScript:;">Toggle status</a></li>
-
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
+                            <partial name="_ProductRow" model="@item" />
                         }
 
                     </tbody>
@@ -126,11 +86,12 @@
 
 @section Scripts {
 
+    <partial name="_ValidationScriptsPartial" />
 
     <script>
         $(document).ready(function () {
 
-            $('.Js-toggle-status').click(function () {
+            $('body').delegate('.Js-toggle-status', 'click', function () {
 
                 var btn = $(this);
                 var id = btn.data('id');
@@ -175,14 +136,10 @@
                             }
                 });
 
-        
 
 
-    </div>
-    <div class="card-footer">
-        Footer
-    </div>
-</div>
+
+            });
 
         })
     </script>

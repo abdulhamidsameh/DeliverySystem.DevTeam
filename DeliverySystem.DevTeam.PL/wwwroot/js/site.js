@@ -13,6 +13,8 @@ function ShowSuccessFullyMessage(Message = 'Saved SuccessFully') {
     });
 
 }
+
+
 function ShowErrorMessage(Message = 'Something went wrong!') {
 
     Swal.fire({
@@ -24,6 +26,7 @@ function ShowErrorMessage(Message = 'Something went wrong!') {
         }
 
     });
+
 }
 
 
@@ -58,7 +61,7 @@ $(document).ready(function () {
     // Handle Bootstrap Moadl
 
 
-    $('body').delegate('.js-render-modal','click', function () {
+    $('body').delegate('.js-render-modal', 'click', function () {
 
         var Modal = $('#Modal');
         var btn = $(this);

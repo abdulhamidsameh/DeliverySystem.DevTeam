@@ -7,143 +7,143 @@ using Microsoft.EntityFrameworkCore;
 
 
 namespace DeliverySystem.DevTeam.PL.Controllers
-{ 
-    public class ProductsController : Controller
-    {
+{
+	public class ProductsController : Controller
+	{
 
-        public ProductsController(ApplicationDbContext dbContext)
-        {
-            _DbContext = dbContext;
-        }
+		public ProductsController(ApplicationDbContext dbContext)
+		{
+			_DbContext = dbContext;
+		}
 
-        public ApplicationDbContext _DbContext { get; }
+		public ApplicationDbContext _DbContext { get; }
 
-        public IActionResult Index()
-        {
-            var Products = _DbContext.Products.AsNoTracking().ToList();
+		public IActionResult Index()
+		{
+			var Products = _DbContext.Products.AsNoTracking().ToList();
 
-            return View(Products);
-        }
-
-
-        #region Add Product
-        [HttpGet]
-        [AjaxOnly]
-        public IActionResult Create()
-        {
-
-            return PartialView("_Form");
-
-        }
-        [HttpPost]
-        public IActionResult Create(CreateOrUodateProductViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var product = new Product()
-                {
-                    Description = model.Description,
-                    Price = model.Price,
-                    Name = model.Name,
-                    QuantityAvailable = model.QuantityAvailable
-                };
+			return View(Products);
+		}
 
 
-                _DbContext.Products.Add(product);
-                //TempData["message"] = "Saved SuccessFully";
+		#region Add Product
+		[HttpGet]
+		[AjaxOnly]
+		public IActionResult Create()
+		{
 
-                _DbContext.SaveChanges();
-                return PartialView("_ProductRow", product);
+			return PartialView("_Form");
 
-            }
-            else
-            {
-                return View("_Form", model);
-            }
-
-
-
-        }
-        #endregion
-
-
-        #region Edit
-
-        [HttpGet]
-        [AjaxOnly]
-
-        public IActionResult Edit(int id)
-        {
-            var Product = _DbContext.Products.Find(id);
-
-            if (Product != null)
-            {
-                var Result = new CreateOrUodateProductViewModel()
-                {
-                    Description = Product.Description,
-                    Id = Product.Id,
-                    Name = Product.Name,
-                    Price = Product.Price,
-                    QuantityAvailable = Product.QuantityAvailable
-
-                };
-
-                return PartialView("_Form", Result);
-            }
+		}
+		[HttpPost]
+		public IActionResult Create(CreateOrUodateProductViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var product = new Product()
+				{
+					Description = model.Description,
+					Price = model.Price,
+					Name = model.Name,
+					QuantityAvailable = model.QuantityAvailable
+				};
 
 
-            return NotFound();
+				_DbContext.Products.Add(product);
+				//TempData["message"] = "Saved SuccessFully";
 
-        }
+				_DbContext.SaveChanges();
+				return PartialView("_ProductRow", product);
 
-        [HttpPost]
-        public IActionResult Edit(CreateOrUodateProductViewModel model)
-        {
-            var Product = _DbContext.Products.Find(model.Id);
-
-            if (Product != null)
-            {
-                Product.Price = model.Price;
-                Product.Name = model.Name;
-                Product.QuantityAvailable = model.QuantityAvailable;
-                Product.Description = model.Description;
-                Product.LastUpdatedOn = DateTime.Now;
-                _DbContext.SaveChanges();
-                //TempData["message"] = "Saved SuccessFully";
-
-                return PartialView("_ProductRow", Product);
-
-            }
-
-
-            return NotFound();
-
-        }
-        #endregion
-
-
-        #region Toggle Status 
-
-
-        public IActionResult ToggleStatus(int id)
-        {
-
-        
-            var product = _DbContext.Products.Find(id);
-            if (product == null) { return NotFound(); };
-
-            product.IsDeleted = !product.IsDeleted;
-            product.LastUpdatedOn =DateTime.Now;
-            _DbContext.SaveChanges();
-
-            return Ok(product.LastUpdatedOn.ToString());
-        }
-
-
-        #endregion
+			}
+			else
+			{
+				return View("_Form", model);
+			}
 
 
 
-    }
+		}
+		#endregion
+
+
+		#region Edit
+
+		[HttpGet]
+		[AjaxOnly]
+
+		public IActionResult Edit(int id)
+		{
+			var Product = _DbContext.Products.Find(id);
+
+			if (Product != null)
+			{
+				var Result = new CreateOrUodateProductViewModel()
+				{
+					Description = Product.Description,
+					Id = Product.Id,
+					Name = Product.Name,
+					Price = Product.Price,
+					QuantityAvailable = Product.QuantityAvailable
+
+				};
+
+				return PartialView("_Form", Result);
+			}
+
+
+			return NotFound();
+
+		}
+
+		[HttpPost]
+		public IActionResult Edit(CreateOrUodateProductViewModel model)
+		{
+			var Product = _DbContext.Products.Find(model.Id);
+
+			if (Product != null)
+			{
+				Product.Price = model.Price;
+				Product.Name = model.Name;
+				Product.QuantityAvailable = model.QuantityAvailable;
+				Product.Description = model.Description;
+				Product.LastUpdatedOn = DateTime.Now;
+				_DbContext.SaveChanges();
+				//TempData["message"] = "Saved SuccessFully";
+
+				return PartialView("_ProductRow", Product);
+
+			}
+
+
+			return NotFound();
+
+		}
+		#endregion
+
+
+		#region Toggle Status 
+
+
+		public IActionResult ToggleStatus(int id)
+		{
+
+
+			var product = _DbContext.Products.Find(id);
+			if (product == null) { return NotFound(); };
+
+			product.IsDeleted = !product.IsDeleted;
+			product.LastUpdatedOn = DateTime.Now;
+			_DbContext.SaveChanges();
+
+			return Ok(product.LastUpdatedOn.ToString());
+		}
+
+
+		#endregion
+
+
+
+	}
 
 }
