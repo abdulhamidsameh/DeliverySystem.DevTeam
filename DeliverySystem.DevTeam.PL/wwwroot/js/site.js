@@ -13,8 +13,6 @@ function ShowSuccessFullyMessage(Message = 'Saved SuccessFully') {
     });
 
 }
-
-
 function ShowErrorMessage(Message = 'Something went wrong!') {
 
     Swal.fire({
@@ -26,7 +24,6 @@ function ShowErrorMessage(Message = 'Something went wrong!') {
         }
 
     });
-
 }
 
 
