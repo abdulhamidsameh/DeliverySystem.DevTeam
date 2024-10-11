@@ -179,67 +179,6 @@
     <script src="~/assets/plugins/datatables/datatables.bundle.js"></script>
 }
 @section Scripts {
-
     <partial name="_ValidationScriptsPartial" />
 
-    <script>
-
-
-        $(document).ready(function () {
-
-
-            // On document ready
-
-            $('body').delegate('.Js-toggle-status', 'click', function () {
-
-                var btn = $(this);
-                var id = btn.data('id');
-
-
-                bootbox.confirm({
-                    message: 'Are you sure you want to change the status of this product?',
-                    buttons: {
-                        confirm: {
-                            label: 'Yes',
-                            className: 'btn-success'
-                        },
-                        cancel: {
-                            label: 'No',
-                            className: 'btn-danger'
-                        }
-                    },
-                    callback: function (result) {
-
-                        if (result) {
-                            $.post({
-                                url: '/Products/ToggleStatus/' + id,
-
-                                success: function (LastUpdatedOn) {
-                                    // js-update
-                                    var row = btn.parents('tr');
-                                    var status = row.find('.js-status');
-                                    var NewStatus = status.text().trim() === 'Deleted' ? 'Available' : 'Deleted'
-                                    status.text(NewStatus).toggleClass('badge badge-danger badge badge-primary');
-                                    row.find('.js-update').html(LastUpdatedOn);
-                                    row.addClass('animate__animated animate__bounce');
-                                    ShowSuccessFullyMessage();
-                                },
-
-                                error: function () {
-
-
-                                    ShowErrorMessage();
-                                }
-                            });
-                        }
-                    }
-                });
-
-
-
-
-            });
-
-        })
-    </script>
 }

@@ -1,5 +1,6 @@
 ﻿
 
+using AutoMapper;
 using DeliverySystem.DevTeam.DAL.Models;
 using DeliverySystem.DevTeam.PL.Filters;
 using DeliverySystem.DevTeam.PL.ViewModels.Products;
@@ -11,14 +12,16 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 	public class ProductsController : Controller
 	{
 
-		public ProductsController(ApplicationDbContext dbContext)
+		public ProductsController(ApplicationDbContext dbContext,IMapper mapper)
 		{
 			_DbContext = dbContext;
-		}
+            _Mapper = mapper;
+        }
 
 		public ApplicationDbContext _DbContext { get; }
+        public IMapper _Mapper { get; }
 
-		public IActionResult Index()
+        public IActionResult Index()
 		{
 			var Products = _DbContext.Products.AsNoTracking().ToList();
 
@@ -40,16 +43,17 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var product = new Product()
-				{
-					Description = model.Description,
-					Price = model.Price,
-					Name = model.Name,
-					QuantityAvailable = model.QuantityAvailable
-				};
+				//var product = new Product()
+				//{
+				//	Description = model.Description,
+				//	Price = model.Price,
+				//	Name = model.Name,
+				//	QuantityAvailable = model.QuantityAvailable
+				//};
 
+             var  product =_Mapper.Map<Product>(model);
 
-				_DbContext.Products.Add(product);
+                _DbContext.Products.Add(product);
 				//TempData["message"] = "Saved SuccessFully";
 
 				_DbContext.SaveChanges();
