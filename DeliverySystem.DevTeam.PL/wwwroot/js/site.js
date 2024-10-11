@@ -1,5 +1,7 @@
 ﻿var UpdateNewRow;
 var datatable;
+var exportCols = [];
+
 function ShowSuccessFullyMessage(Message = 'Saved SuccessFully') {
 
     Swal.fire({
@@ -38,11 +40,11 @@ function OnModalSuccess(item) {
 
         datatable.row(UpdateNewRow).remove().draw();
         UpdateNewRow == undefined;
-  
-      //  $('tbody').append(item);
 
-    } 
-   
+        //  $('tbody').append(item);
+
+    }
+
     var NewRow = $(item);
     datatable.row.add(NewRow).draw();
 
@@ -51,6 +53,9 @@ function OnModalSuccess(item) {
     ShowSuccessFullyMessage();
     $('#Modal').modal('hide');;
 }
+
+
+
 
 $(document).ready(function () {
 
@@ -106,13 +111,32 @@ $(document).ready(function () {
 
 
 /// Data Table
+
+var headers = $('th');
+$.each(headers, function (i) {
+
+    var col = $(this);
+
+    if (!col.hasClass('js-no-export')) {
+        exportCols.push(i);
+        
+
+        console.log();
+
+    };
+});
+
+
+
+
+
 "use strict";
 
 // Class definition
 var KTDatatablesExample = function () {
     // Shared variables
     var table;
-  
+
 
     // Private functions
     var initDatatable = function () {
@@ -141,19 +165,31 @@ var KTDatatablesExample = function () {
             buttons: [
                 {
                     extend: 'copyHtml5',
-                    title: documentTitle
+                    title: documentTitle,
+                    exportOptions: {
+                        columns: exportCols
+                    }
                 },
                 {
                     extend: 'excelHtml5',
-                    title: documentTitle
+                    title: documentTitle,
+                               exportOptions: {
+                        columns: exportCols
+                    }
                 },
                 {
                     extend: 'csvHtml5',
-                    title: documentTitle
+                    title: documentTitle,
+                               exportOptions: {
+                        columns: exportCols
+                    }
                 },
                 {
                     extend: 'pdfHtml5',
-                    title: documentTitle
+                    title: documentTitle,
+                               exportOptions: {
+                        columns: exportCols
+                    }
                 }
             ]
         }).container().appendTo($('#kt_datatable_example_buttons'));
