@@ -9,7 +9,7 @@ function ShowSuccessFullyMessage(Message = 'Saved SuccessFully') {
         title: "success",
         text: Message,
         customClass: {
-            confirmButton: "btn btn-outline btn-outline-dashed btn-outline-success btn-active-light-success"
+            confirmButton: "btn btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary"
         }
 
     });
@@ -175,9 +175,9 @@ $.each(headers, function (i) {
 
     if (!col.hasClass('js-no-export')) {
         exportCols.push(i);
-         // هنا بنهندل جزء وهو بيطبع يخفي ال edit and status
+        // هنا بنهندل جزء وهو بيطبع يخفي ال edit and status
         // كمال لو مش فاهم حاجه هنا عرفني عشان كل ده شغال Generic 
-         // By Ahmed Farouk ................ 
+        // By Ahmed Farouk ................ 
     };
 });
 
@@ -207,7 +207,7 @@ var KTDatatablesExample = function () {
         // Init datatable --- more info on datatables: https://datatables.net/manual/
         datatable = $(table).DataTable({
             "info": false,
-         
+            'order': [],
             'pageLength': 10,
         });
     }
@@ -228,21 +228,21 @@ var KTDatatablesExample = function () {
                 {
                     extend: 'excelHtml5',
                     title: documentTitle,
-                               exportOptions: {
+                    exportOptions: {
                         columns: exportCols
                     }
                 },
                 {
                     extend: 'csvHtml5',
                     title: documentTitle,
-                               exportOptions: {
+                    exportOptions: {
                         columns: exportCols
                     }
                 },
                 {
                     extend: 'pdfHtml5',
                     title: documentTitle,
-                               exportOptions: {
+                    exportOptions: {
                         columns: exportCols
                     }
                 }

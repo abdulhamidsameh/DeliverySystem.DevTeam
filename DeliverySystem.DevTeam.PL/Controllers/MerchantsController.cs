@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DeliverySystem.DevTeam.DAL.Models;
+using DeliverySystem.DevTeam.PL.ViewModels.Merchant;
+using Microsoft.EntityFrameworkCore;
 
 namespace DeliverySystem.DevTeam.PL.Controllers
 {

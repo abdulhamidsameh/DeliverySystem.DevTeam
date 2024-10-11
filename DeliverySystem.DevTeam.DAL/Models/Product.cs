@@ -1,7 +1,7 @@
 ﻿
 namespace DeliverySystem.DevTeam.DAL.Models
 {
-	public class Product
+	public class Product:BaseEntity
 	{
 	
 		public string Name { get; set; }
