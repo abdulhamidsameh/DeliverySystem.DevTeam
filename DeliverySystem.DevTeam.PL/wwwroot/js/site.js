@@ -1,5 +1,7 @@
 ﻿var UpdateNewRow;
 var datatable;
+var exportCols = [];
+
 function ShowSuccessFullyMessage(Message = 'Saved SuccessFully') {
 
     Swal.fire({
@@ -38,11 +40,11 @@ function OnModalSuccess(item) {
 
         datatable.row(UpdateNewRow).remove().draw();
         UpdateNewRow == undefined;
-  
-      //  $('tbody').append(item);
 
-    } 
-   
+        //  $('tbody').append(item);
+
+    }
+
     var NewRow = $(item);
     datatable.row.add(NewRow).draw();
 
@@ -51,6 +53,9 @@ function OnModalSuccess(item) {
     ShowSuccessFullyMessage();
     $('#Modal').modal('hide');;
 }
+
+
+
 
 $(document).ready(function () {
 
@@ -101,18 +106,92 @@ $(document).ready(function () {
         Modal.modal('show');
     });
 
+
+
+
+
+    /// Toggle status 
+    // On document ready
+
+    $('body').delegate('.Js-toggle-status', 'click', function () {
+
+        var btn = $(this);
+        var id = btn.data('id');
+
+
+        bootbox.confirm({
+            message: 'Are you sure you want to change the status of this product?',
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+
+                if (result) {
+                    $.post({
+                        url: btn.data('url'),
+
+                        success: function (LastUpdatedOn) {
+                            // js-update
+                            var row = btn.parents('tr');
+                            var status = row.find('.js-status');
+                            var NewStatus = status.text().trim() === 'Deleted' ? 'Available' : 'Deleted'
+                            status.text(NewStatus).toggleClass('badge badge-danger badge badge-primary');
+                            row.find('.js-update').html(LastUpdatedOn);
+                            row.addClass('animate__animated animate__bounce');
+                            ShowSuccessFullyMessage();
+                        },
+
+                        error: function () {
+
+
+                            ShowErrorMessage();
+                        }
+                    });
+                }
+            }
+        });
+
+
+
+
+    });
 });
 
 
 
 /// Data Table
+
+var headers = $('th');
+$.each(headers, function (i) {
+
+    var col = $(this);
+
+    if (!col.hasClass('js-no-export')) {
+        exportCols.push(i);
+         // هنا بنهندل جزء وهو بيطبع يخفي ال edit and status
+        // كمال لو مش فاهم حاجه هنا عرفني عشان كل ده شغال Generic 
+         // By Ahmed Farouk ................ 
+    };
+});
+
+
+
+
+
 "use strict";
 
 // Class definition
 var KTDatatablesExample = function () {
     // Shared variables
     var table;
-  
+
 
     // Private functions
     var initDatatable = function () {
@@ -141,19 +220,31 @@ var KTDatatablesExample = function () {
             buttons: [
                 {
                     extend: 'copyHtml5',
-                    title: documentTitle
+                    title: documentTitle,
+                    exportOptions: {
+                        columns: exportCols
+                    }
                 },
                 {
                     extend: 'excelHtml5',
-                    title: documentTitle
+                    title: documentTitle,
+                               exportOptions: {
+                        columns: exportCols
+                    }
                 },
                 {
                     extend: 'csvHtml5',
-                    title: documentTitle
+                    title: documentTitle,
+                               exportOptions: {
+                        columns: exportCols
+                    }
                 },
                 {
                     extend: 'pdfHtml5',
-                    title: documentTitle
+                    title: documentTitle,
+                               exportOptions: {
+                        columns: exportCols
+                    }
                 }
             ]
         }).container().appendTo($('#kt_datatable_example_buttons'));

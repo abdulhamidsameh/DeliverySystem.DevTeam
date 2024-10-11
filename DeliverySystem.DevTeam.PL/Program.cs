@@ -1,5 +1,7 @@
 using DeliverySystem.DevTeam.DAL.Data;
+using DeliverySystem.DevTeam.PL.Helpers;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace DeliverySystem.DevTeam.PL
 {
@@ -16,6 +18,9 @@ namespace DeliverySystem.DevTeam.PL
 				{
 					options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies();
 				});
+
+			builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
+
 			var app = builder.Build();
 			var scope = app.Services.CreateScope();
 			var services = scope.ServiceProvider;
