@@ -6,7 +6,7 @@ using DeliverySystem.DevTeam.PL.ViewModels.Products;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace DeliverySystem.DevTeam.PL.Controllers
+namespace DeliverySystem.DevTeam.PL.Controllers 
 {
 	public class ProductsController : Controller
 	{
