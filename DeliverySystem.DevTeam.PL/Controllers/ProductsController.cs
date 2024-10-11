@@ -1,8 +1,13 @@
 ﻿
 
+using AutoMapper;
+using DeliverySystem.DevTeam.DAL.Models;
+using DeliverySystem.DevTeam.PL.Filters;
+using DeliverySystem.DevTeam.PL.ViewModels.Products;
+using Microsoft.EntityFrameworkCore;
 
 
-namespace DeliverySystem.DevTeam.PL.Controllers 
+namespace DeliverySystem.DevTeam.PL.Controllers
 {
     public class ProductsController : Controller
     {
@@ -77,22 +82,21 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 
             if (Product != null)
             {
-                var Result = _Mapper.Map<CreateOrUodateProductViewModel>(Product);
+                var Result = new CreateOrUodateProductViewModel()
+                {
+                    Description = Product.Description,
+                    Id = Product.Id,
+                    Name = Product.Name,
+                    Price = Product.Price,
+                    QuantityAvailable = Product.QuantityAvailable
 
-                ///var Result = new CreateOrUodateProductViewModel()
-                ///{
-                ///	Description = Product.Description,
-                ///	Id = Product.Id,
-                ///	Name = Product.Name,
-                ///	Price = Product.Price,
-                ///	QuantityAvailable = Product.QuantityAvailable
-                ///};
+                };
 
                 return PartialView("_Form", Result);
             }
 
 
-            return NotFound();
+            return NotFound(); 
 
         }
 
@@ -141,6 +145,8 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 
 
         #endregion
+
+
 
 
 
