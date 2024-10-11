@@ -22,6 +22,6 @@ namespace DeliverySystem.DevTeam.DAL.Data
 
 		public DbSet<Product> Products { get; set; }
 		public DbSet<Merchant> Merchants { get; set; }
-		public DbSet<Warehouse> Warehouses { get; set; }
+		
 	}
 }
