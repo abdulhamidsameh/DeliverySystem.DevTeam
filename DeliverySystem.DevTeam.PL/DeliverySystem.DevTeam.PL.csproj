@@ -18,8 +18,4 @@
     <ProjectReference Include="..\DeliverySystem.DevTeam.BLL\DeliverySystem.DevTeam.BLL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\assets\plugins\" />
-  </ItemGroup>
-
 </Project>

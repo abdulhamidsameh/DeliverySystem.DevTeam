@@ -9,7 +9,7 @@ function ShowSuccessFullyMessage(Message = 'Saved SuccessFully') {
         title: "success",
         text: Message,
         customClass: {
-            confirmButton: "btn btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary"
+            confirmButton: "btn btn-outline btn-outline-dashed btn-outline-success btn-active-light-success"
         }
 
     });

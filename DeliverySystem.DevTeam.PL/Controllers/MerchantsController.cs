@@ -1,0 +1,108 @@
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace DeliverySystem.DevTeam.PL.Controllers
+{
+	public class MerchantsController : Controller
+	{
+		private readonly ApplicationDbContext _dbContext;
+
+		public MerchantsController(ApplicationDbContext dbContext)
+		{
+			this._dbContext = dbContext;
+		}
+		public IActionResult Index()
+		{
+			var merchants = _dbContext.Merchants.AsNoTracking().ToList();
+			return View(merchants);
+		}
+		public IActionResult Create()
+		{
+			return View("Form");
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult Create(CreateOrUpdateMerchantViewModel model)
+		{
+			if (!ModelState.IsValid)
+				return View("Form", model);
+			var merchant = new Merchant()
+			{
+				Name = model.Name,
+				Email = model.Email,
+				PhoneNumber = model.PhoneNumber,
+				Address = model.Address
+			};
+			_dbContext.Merchants.Add(merchant);
+			_dbContext.SaveChanges();
+				
+			return RedirectToAction(nameof(Index));
+		}
+
+
+		[HttpGet]
+
+		public IActionResult Edit(int id)
+		{
+			var merchant = _dbContext.Merchants.Find(id);
+
+			if (merchant is null)
+				return NotFound();
+
+			var viewModel = new CreateOrUpdateMerchantViewModel()
+			{
+				Id = id,
+				Name = merchant.Name,
+				Email = merchant.Email,
+				PhoneNumber = merchant.PhoneNumber,
+				Address = merchant.Address
+
+			};
+			return View("Form", viewModel);
+		}
+
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult Edit(CreateOrUpdateMerchantViewModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View("Form", model);
+			}
+			var merchant = _dbContext.Merchants.Find(model.Id);
+
+			if (merchant is not null)
+			{
+				merchant.Name = model.Name;
+				merchant.Email = model.Email;
+				merchant.PhoneNumber = model.PhoneNumber;
+				merchant.Address = model.Address;
+				merchant.LastUpdatedOn = DateTime.Now;
+
+				_dbContext.SaveChanges();
+
+
+				return RedirectToAction(nameof(Index));
+			}
+			return NotFound();
+
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult ToggleStatus(int id)
+		{
+			var merchant = _dbContext.Merchants.Find(id);
+			if (merchant is null)
+				return NotFound();
+
+			merchant.IsDeleted = !merchant.IsDeleted;
+			merchant.LastUpdatedOn = DateTime.Now;
+			_dbContext.SaveChanges();
+			return Ok(merchant.LastUpdatedOn.ToString());
+
+
+		}
+	}
+}
