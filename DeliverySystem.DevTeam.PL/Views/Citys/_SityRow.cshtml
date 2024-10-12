@@ -1,10 +1,11 @@
-﻿@using DeliverySystem.DevTeam.PL.ViewModels.Products
-@model Product
+﻿@using DeliverySystem.DevTeam.PL.ViewModels.City
+
+@model CityViewModal
 
 
 <tr>
     <td>@Model.Name</td>
-    <td>@Model.Description</td>
+    <td>@Model.State</td>
     <td>
 
         <span class="badge badge-@(Model.IsDeleted ? "danger" : "primary") badge-sm js-status">
@@ -14,8 +15,8 @@
         </span>
 
     </td>
-    <td>@Model.Price</td> 
-    <td>@Model.QuantityAvailable</td>
+    <td>@Model.Country</td>
+
     <td>@Model.CreatedOn</td>
     <td class="js-update">@Model.LastUpdatedOn</td>
     <td>
@@ -30,8 +31,9 @@
                 </svg>
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item js-render-modal " data-url="/Products/Edit/@Model.Id" data-title="Edit Product" data-update="true">Edit</a></li>
-                <li><a class="dropdown-item Js-toggle-status" href="JavaScript:;" data-title="product" data-url="/Products/ToggleStatus/@Model.Id">Toggle status</a></li>
+                <li><a class="dropdown-item js-render-modal " data-url="/Citys/Edit/@Model.Id" data-title="Edit City" data-update="true">Edit</a></li>
+
+                <li><a class="dropdown-item Js-toggle-status" href="JavaScript:;" data-title="City" data-url="/Citys/ToggleStatus/@Model.Id">Toggle status</a></li>
 
             </ul>
         </div>
