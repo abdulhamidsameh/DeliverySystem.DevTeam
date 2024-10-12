@@ -2,6 +2,7 @@
 
 using AutoMapper;
 using DeliverySystem.DevTeam.DAL.Models;
+using DeliverySystem.DevTeam.PL.ViewModels.City;
 using DeliverySystem.DevTeam.PL.ViewModels.Products;
 
 namespace DeliverySystem.DevTeam.PL.Helpers
@@ -14,6 +15,14 @@ namespace DeliverySystem.DevTeam.PL.Helpers
         {
             // Product
             CreateMap<Product, CreateOrUodateProductViewModel>().ReverseMap();
+
+
+
+
+
+            // City
+            CreateMap<City,CityViewModal>().ReverseMap();
+
 
         }
     }
