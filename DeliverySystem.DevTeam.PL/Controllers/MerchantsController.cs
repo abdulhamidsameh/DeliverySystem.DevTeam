@@ -1,4 +1,5 @@
 ﻿using DeliverySystem.DevTeam.DAL.Models;
+using DeliverySystem.DevTeam.PL.Filters;
 using DeliverySystem.DevTeam.PL.ViewModels.Merchant;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,9 +18,12 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 			var merchants = _dbContext.Merchants.AsNoTracking().ToList();
 			return View(merchants);
 		}
+
+		[HttpGet]
+		[AjaxOnly]
 		public IActionResult Create()
 		{
-			return View("Form");
+			return PartialView("_MerchantForm");
 		}
 
 		[HttpPost]
@@ -27,7 +31,7 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 		public IActionResult Create(CreateOrUpdateMerchantViewModel model)
 		{
 			if (!ModelState.IsValid)
-				return View("Form", model);
+				return BadRequest();
 			var merchant = new Merchant()
 			{
 				Name = model.Name,
@@ -37,13 +41,13 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 			};
 			_dbContext.Merchants.Add(merchant);
 			_dbContext.SaveChanges();
-				
-			return RedirectToAction(nameof(Index));
+
+			return PartialView("_MerchantRow",merchant);
 		}
 
 
 		[HttpGet]
-
+		[AjaxOnly]
 		public IActionResult Edit(int id)
 		{
 			var merchant = _dbContext.Merchants.Find(id);
@@ -60,7 +64,7 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 				Address = merchant.Address
 
 			};
-			return View("Form", viewModel);
+			return PartialView("_MerchantForm", viewModel);
 		}
 
 
@@ -70,7 +74,7 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				return View("Form", model);
+				return BadRequest();
 			}
 			var merchant = _dbContext.Merchants.Find(model.Id);
 
@@ -85,7 +89,7 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 				_dbContext.SaveChanges();
 
 
-				return RedirectToAction(nameof(Index));
+				return PartialView("_MerchantRow",merchant);
 			}
 			return NotFound();
 
@@ -98,7 +102,6 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 			var merchant = _dbContext.Merchants.Find(id);
 			if (merchant is null)
 				return NotFound();
-
 			merchant.IsDeleted = !merchant.IsDeleted;
 			merchant.LastUpdatedOn = DateTime.Now;
 			_dbContext.SaveChanges();

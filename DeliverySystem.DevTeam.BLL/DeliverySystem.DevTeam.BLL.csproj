@@ -10,4 +10,8 @@
     <ProjectReference Include="..\DeliverySystem.DevTeam.DAL\DeliverySystem.DevTeam.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>
