@@ -43,6 +43,8 @@ namespace DeliverySystem.DevTeam.PL.Controllers
         {
             var result = _Mapper.Map<City>(city);
 
+            var x = Enumerable.Empty<CityViewModal>();
+
 
             if (!ModelState.IsValid)
                 return NotFound();
