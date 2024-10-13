@@ -1,14 +1,10 @@
 ﻿using DeliverySystem.DevTeam.DAL.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-
+using System.Reflection;
 namespace DeliverySystem.DevTeam.DAL.Data
 {
-	public class ApplicationDbContext :IdentityDbContext
+	public class ApplicationDbContext :IdentityDbContext<ApplicationUser,ApplicationRole,string>
 	{
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 			:base(options)
@@ -18,10 +14,11 @@ namespace DeliverySystem.DevTeam.DAL.Data
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);
+			builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 		}
-
+		
 		public DbSet<Product> Products { get; set; }
 		public DbSet<Merchant> Merchants { get; set; }
-		public DbSet<Warhouse> Warehouses { get; set; }
+		public DbSet<Warehouse> Warehouses { get; set; }
 	}
 }

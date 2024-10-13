@@ -2,17 +2,12 @@
 
 using AutoMapper;
 using DeliverySystem.DevTeam.DAL.Models;
-using DeliverySystem.DevTeam.PL.ViewModels.City;
-using DeliverySystem.DevTeam.PL.ViewModels.Merchant;
 using DeliverySystem.DevTeam.PL.ViewModels.Products;
-using DeliverySystem.DevTeam.PL.ViewModels.Warehouse;
 
 namespace DeliverySystem.DevTeam.PL.Helpers
 {
     public class MappingProfile :Profile
     {
-
-
         public MappingProfile()
         {
             // Product
@@ -28,6 +23,10 @@ namespace DeliverySystem.DevTeam.PL.Helpers
             CreateMap<City,CityViewModal>().ReverseMap();
 
 
-        }
+            // Roles
+            CreateMap<ApplicationRole, CreateRoleViewModel>().ReverseMap();
+            CreateMap<ApplicationRole, RoleToUpdateOrReturnViewModel>().ReverseMap();
+
+		}
     }
 }

@@ -1,29 +1,28 @@
 
-using DeliverySystem.DevTeam.BLL.Interfaces;
-using DeliverySystem.DevTeam.BLL.Repositories;
 using DeliverySystem.DevTeam.PL.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace DeliverySystem.DevTeam.PL
 {
-	public class Program
-	{
-		public static async Task Main(string[] args)
-		{
-			var builder = WebApplication.CreateBuilder(args);
+    public class Program
+    {
+        public static async Task Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
-			// Add services to the container.
-			builder.Services.AddControllersWithViews();
-			builder.Services.AddDbContext<ApplicationDbContext>(
-				options =>
-				{
-					options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies();
-				});
-
+            // Add services to the container.
+            builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<ApplicationDbContext>(
+                options =>
+                {
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies();
+                });
+			builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+			  .AddEntityFrameworkStores<ApplicationDbContext>();
 			builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
-            builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
-            var app = builder.Build();
+
+			var app = builder.Build();
 			var scope = app.Services.CreateScope();
 			var services = scope.ServiceProvider;
 			var _dbcontext = services.GetRequiredService<ApplicationDbContext>();
@@ -45,18 +44,18 @@ namespace DeliverySystem.DevTeam.PL
 				app.UseHsts();
 			}
 
-			app.UseHttpsRedirection();
-			app.UseStaticFiles();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
-			app.UseRouting();
+            app.UseRouting();
 
-			app.UseAuthorization();
+            app.UseAuthorization();
 
-			app.MapControllerRoute(
-				name: "default",
-				pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
-			app.Run();
-		}
-	}
+            app.Run();
+        }
+    }
 }
