@@ -6,6 +6,15 @@
         {
             // Product
             CreateMap<Product, CreateOrUodateProductViewModel>().ReverseMap();
+            CreateMap<Merchant, CreateOrUpdateMerchantViewModel>().ReverseMap();
+
+
+
+
+
+            // City
+            CreateMap<City,CityViewModal>().ReverseMap();
+
 
             // Roles
             CreateMap<ApplicationRole, CreateRoleViewModel>().ReverseMap();

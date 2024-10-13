@@ -43,14 +43,7 @@ namespace DeliverySystem.DevTeam.PL.Controllers
         {
             if (ModelState.IsValid)
             {
-                //var product = new Product()
-                //{
-                //	Description = model.Description,
-                //	Price = model.Price,
-                //	Name = model.Name,
-                //	QuantityAvailable = model.QuantityAvailable
-                //};
-
+            
                 var product = _Mapper.Map<Product>(model);
 
                 _DbContext.Products.Add(product);

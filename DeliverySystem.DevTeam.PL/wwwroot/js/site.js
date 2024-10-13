@@ -117,10 +117,10 @@ $(document).ready(function () {
 
         var btn = $(this);
         var id = btn.data('id');
-
+        var Title = btn.data('title');
 
         bootbox.confirm({
-            message: 'Are you sure you want to change the status of this product?',
+            message: `Are you sure you want to change the status of this ${Title}?`,
             buttons: {
                 confirm: {
                     label: 'Yes',
@@ -207,7 +207,7 @@ var KTDatatablesExample = function () {
         // Init datatable --- more info on datatables: https://datatables.net/manual/
         datatable = $(table).DataTable({
             "info": false,
-            'order': [],
+  
             'pageLength': 10,
         });
     }
