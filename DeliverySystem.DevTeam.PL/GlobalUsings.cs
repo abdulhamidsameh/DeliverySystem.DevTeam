@@ -1,5 +1,12 @@
 ﻿global using Microsoft.AspNetCore.Mvc;
 global using DeliverySystem.DevTeam.DAL.Data;
-
-
-
+global using DeliverySystem.DevTeam.DAL.Models;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.EntityFrameworkCore;
+global using DeliverySystem.DevTeam.PL.Helpers;
+global using System.Reflection;
+global using AutoMapper;
+global using DeliverySystem.DevTeam.PL.ViewModels.Products;
+global using DeliverySystem.DevTeam.PL.ViewModels.Roles;
+global using System.ComponentModel.DataAnnotations;
+global using DeliverySystem.DevTeam.PL.Filters;
