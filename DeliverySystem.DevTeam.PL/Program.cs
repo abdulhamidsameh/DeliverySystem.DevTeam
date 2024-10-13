@@ -18,7 +18,8 @@ namespace DeliverySystem.DevTeam.PL
                 {
                     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies();
                 });
-
+			builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+			  .AddEntityFrameworkStores<ApplicationDbContext>();
 			builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
 
 			var app = builder.Build();

@@ -1,4 +1,7 @@
-﻿namespace DeliverySystem.DevTeam.PL.Helpers
+﻿using DeliverySystem.DevTeam.PL.ViewModels.City;
+using DeliverySystem.DevTeam.PL.ViewModels.Merchant;
+
+namespace DeliverySystem.DevTeam.PL.Helpers
 {
     public class MappingProfile :Profile
     {
