@@ -1,7 +1,6 @@
 ﻿var UpdateNewRow;
 var datatable;
 var exportCols = [];
-
 function ShowSuccessFullyMessage(Message = 'Saved SuccessFully') {
 
     Swal.fire({
@@ -32,7 +31,6 @@ function ShowErrorMessage(Message = 'Something went wrong!') {
 }
 
 
-
 function OnModalSuccess(item) {
 
 
@@ -53,9 +51,6 @@ function OnModalSuccess(item) {
     ShowSuccessFullyMessage();
     $('#Modal').modal('hide');;
 }
-
-
-
 
 $(document).ready(function () {
 
@@ -165,7 +160,6 @@ $(document).ready(function () {
 });
 
 
-
 /// Data Table
 
 var headers = $('th');
@@ -180,9 +174,6 @@ $.each(headers, function (i) {
         // By Ahmed Farouk ................ 
     };
 });
-
-
-
 
 
 "use strict";
@@ -207,7 +198,6 @@ var KTDatatablesExample = function () {
         // Init datatable --- more info on datatables: https://datatables.net/manual/
         datatable = $(table).DataTable({
             "info": false,
-  
             'pageLength': 10,
         });
     }
