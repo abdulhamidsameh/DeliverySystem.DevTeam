@@ -1,10 +1,5 @@
 ﻿
 
-using AutoMapper;
-using DeliverySystem.DevTeam.DAL.Models;
-using DeliverySystem.DevTeam.PL.Filters;
-using DeliverySystem.DevTeam.PL.ViewModels.Products;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace DeliverySystem.DevTeam.PL.Controllers

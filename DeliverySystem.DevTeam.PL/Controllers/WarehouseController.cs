@@ -1,9 +1,4 @@
-﻿using DeliverySystem.DevTeam.DAL.Models;
-using DeliverySystem.DevTeam.PL.Filters;
-using DeliverySystem.DevTeam.PL.ViewModels.Merchant;
-using DeliverySystem.DevTeam.PL.ViewModels.Warehouse;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿
 
 namespace DeliverySystem.DevTeam.PL.Controllers
 {
@@ -94,7 +89,6 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		public IActionResult ToggleStatus(int id)
 		{
 			var warehouse = _dbContext.Warehouses.Find(id);

@@ -1,10 +1,4 @@
-﻿using AutoMapper;
-using DeliverySystem.DevTeam.BLL.Interfaces;
-using DeliverySystem.DevTeam.DAL.Models;
-using DeliverySystem.DevTeam.PL.Filters;
-using DeliverySystem.DevTeam.PL.ViewModels.City;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿
 
 namespace DeliverySystem.DevTeam.PL.Controllers
 {
