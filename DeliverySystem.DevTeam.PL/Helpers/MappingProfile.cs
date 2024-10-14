@@ -2,7 +2,11 @@
 
 using AutoMapper;
 using DeliverySystem.DevTeam.DAL.Models;
+using DeliverySystem.DevTeam.PL.ViewModels.City;
+using DeliverySystem.DevTeam.PL.ViewModels.Merchant;
 using DeliverySystem.DevTeam.PL.ViewModels.Products;
+using DeliverySystem.DevTeam.PL.ViewModels.Roles;
+using DeliverySystem.DevTeam.PL.ViewModels.Warehouse;
 
 namespace DeliverySystem.DevTeam.PL.Helpers
 {
