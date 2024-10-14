@@ -94,7 +94,6 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		public IActionResult ToggleStatus(int id)
 		{
 			var warehouse = _dbContext.Warehouses.Find(id);

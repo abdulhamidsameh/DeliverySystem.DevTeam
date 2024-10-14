@@ -1,4 +1,6 @@
 
+using DeliverySystem.DevTeam.BLL.Interfaces;
+using DeliverySystem.DevTeam.BLL.Repositories;
 using DeliverySystem.DevTeam.DAL.Models;
 using DeliverySystem.DevTeam.PL.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +23,7 @@ namespace DeliverySystem.DevTeam.PL
                 });
 			builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
 			  .AddEntityFrameworkStores<ApplicationDbContext>();
+			builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 			builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
 
 			var app = builder.Build();

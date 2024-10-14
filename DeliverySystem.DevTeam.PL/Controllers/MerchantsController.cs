@@ -96,7 +96,6 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		public IActionResult ToggleStatus(int id)
 		{
 			var merchant = _dbContext.Merchants.Find(id);
