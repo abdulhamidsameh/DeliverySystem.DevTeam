@@ -5,13 +5,13 @@
 
 
 
+@section Style {
+    <link href="~/assets/plugins/datatables/datatables.bundle.css" rel="stylesheet" />
+
+}
 
 
-
-
-
-
-
+<partial name="_DataTable" />
 
 
 
@@ -41,3 +41,10 @@
         </table>
     </div>
 </div>
+@section Plugins {
+    <script src="~/assets/plugins/datatables/datatables.bundle.js"></script>
+}
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+}
