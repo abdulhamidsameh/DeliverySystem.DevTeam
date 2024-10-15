@@ -13,5 +13,6 @@ namespace DeliverySystem.DevTeam.DAL.Models
 		public string City { get; set; }
 		public DateTime CreatedOn { get; set; } = DateTime.Now;
 		public DateTime? LastUpdatedOn { get; set; }
+		public ICollection<Product> Products { get; set; }
 	}
 }

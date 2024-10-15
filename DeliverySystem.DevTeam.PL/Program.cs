@@ -19,7 +19,7 @@ namespace DeliverySystem.DevTeam.PL
             builder.Services.AddDbContext<ApplicationDbContext>(
                 options =>
                 {
-                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies();
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies(false);
                 });
 			builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
 			  .AddEntityFrameworkStores<ApplicationDbContext>();

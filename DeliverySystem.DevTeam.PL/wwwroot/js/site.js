@@ -53,7 +53,7 @@ function OnModalSuccess(item) {
 }
 
 $(document).ready(function () {
-
+   
 
     var Message = $('#Message').text();
     if (Message !== '') {

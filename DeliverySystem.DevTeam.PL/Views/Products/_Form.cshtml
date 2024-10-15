@@ -43,6 +43,17 @@
         <span class="text-danger" asp-validation-for="QuantityAvailable"></span>
 
     </div>
+    <div class=" mb-7">
+        <select asp-for="WarhouseId" class="form-select">
+            <option value="0">Select Warhouses</option>
+            @foreach (var warehouse in Model.Warhouses)
+            {
+                <option value="@warehouse.Id">@warehouse.Name</option> <!-- Adjust property names -->
+            }
+        </select>
+        <span class="text-danger" asp-validation-for="WarhouseId"></span>
+    </div>
+
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary">Save changes</button>

@@ -182,5 +182,12 @@
 
 @section Scripts {
 	<partial name="_ValidationScriptsPartial" />
-
+	<script>
+		$(document).ready(function () {
+			$('.Js-details-product').on('click', function () {
+				var id = $(this).data('id');
+				window.location.href = '/Products/Productdetails/' + id;
+			});
+		});
+	</script>
 }

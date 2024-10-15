@@ -2,23 +2,29 @@
 
 
 
+using DeliverySystem.DevTeam.DAL.Models;
+
 namespace DeliverySystem.DevTeam.PL.Controllers
 {
     public class ProductsController : Controller
     {
 
-        public ProductsController(ApplicationDbContext dbContext, IMapper mapper)
+        public ProductsController( IMapper mapper ,IUnitOfWork unitOf,ApplicationDbContext context)
         {
-            _DbContext = dbContext;
+          
             _Mapper = mapper;
-        }
+			_UnitOf = unitOf;
+			_Context = context;
+		}
 
-        public ApplicationDbContext _DbContext { get; }
+      
         public IMapper _Mapper { get; }
+		public IUnitOfWork _UnitOf { get; }
+		public ApplicationDbContext _Context { get; }
 
-        public IActionResult Index()
+		public IActionResult Index()
         {
-            var Products = _DbContext.Products.AsNoTracking().ToList();
+            var Products = _UnitOf.Repository<Product>().GetAll();
 
             return View(Products);
         }
@@ -29,9 +35,13 @@ namespace DeliverySystem.DevTeam.PL.Controllers
         [AjaxOnly]
         public IActionResult Create()
         {
+            var Warhouse = _UnitOf.Repository<Warhouse>().GetAll();
+            var Result = new CreateOrUodateProductViewModel()
+            {
 
-            return PartialView("_Form");
-
+                Warhouses = Warhouse.ToList(),
+            };
+			return PartialView("_Form", Result);
         }
         [HttpPost]
         public IActionResult Create(CreateOrUodateProductViewModel model)
@@ -41,10 +51,10 @@ namespace DeliverySystem.DevTeam.PL.Controllers
             
                 var product = _Mapper.Map<Product>(model);
 
-                _DbContext.Products.Add(product);
-                //TempData["message"] = "Saved SuccessFully";
+				_UnitOf.Repository<Product>().Add(product);
+				//TempData["message"] = "Saved SuccessFully";
 
-                _DbContext.SaveChanges();
+				_UnitOf.Complete();
                 return PartialView("_ProductRow", product);
 
             }
@@ -66,7 +76,9 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 
         public IActionResult Edit(int id)
         {
-            var Product = _DbContext.Products.Find(id);
+            var Product = _UnitOf.Repository<Product>().GetById(id);
+            var Warhouse = _UnitOf.Repository<Warhouse>().GetAll();
+
 
             if (Product != null)
             {
@@ -76,7 +88,10 @@ namespace DeliverySystem.DevTeam.PL.Controllers
                     Id = Product.Id,
                     Name = Product.Name,
                     Price = Product.Price,
-                    QuantityAvailable = Product.QuantityAvailable
+                    QuantityAvailable = Product.QuantityAvailable,
+                    Warhouses = Warhouse.ToList(),
+                    WarhouseId = Product.WarhouseId
+
 
                 };
 
@@ -91,19 +106,21 @@ namespace DeliverySystem.DevTeam.PL.Controllers
         [HttpPost]
         public IActionResult Edit(CreateOrUodateProductViewModel model)
         {
-            var Product = _DbContext.Products.Find(model.Id);
+			var Product = _UnitOf.Repository<Product>().GetById(model.Id);
 
-            if (Product != null)
+			if (Product != null)
             {
                 Product.Price = model.Price;
                 Product.Name = model.Name;
                 Product.QuantityAvailable = model.QuantityAvailable;
                 Product.Description = model.Description;
                 Product.LastUpdatedOn = DateTime.Now;
-                _DbContext.SaveChanges();
-                //TempData["message"] = "Saved SuccessFully";
+                Product.WarhouseId = model.WarhouseId;
+				_UnitOf.Complete();
 
-                return PartialView("_ProductRow", Product);
+				//TempData["message"] = "Saved SuccessFully";
+
+				return PartialView("_ProductRow", Product);
 
             }
 
@@ -121,14 +138,16 @@ namespace DeliverySystem.DevTeam.PL.Controllers
         {
 
 
-            var product = _DbContext.Products.Find(id);
-            if (product == null) { return NotFound(); };
+			var product = _UnitOf.Repository<Product>().GetById(id);
+
+			if (product == null) { return NotFound(); };
 
             product.IsDeleted = !product.IsDeleted;
             product.LastUpdatedOn = DateTime.Now;
-            _DbContext.SaveChanges();
+			_UnitOf.Complete();
 
-            return Ok(product.LastUpdatedOn.ToString());
+
+			return Ok(product.LastUpdatedOn.ToString());
         }
 
 
@@ -136,8 +155,16 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 
 
 
+        public IActionResult Productdetails(int id)
+        {
+            //var Warhouse = _UnitOf.Repository<Warhouse>().GetById(id);
+            var Warhouse = _Context.Warehouses.Where(c => c.Id == id).Include(x => x.Products).ToList();
+			return View(Warhouse);
+        }
 
 
-    }
+
+
+	}
 
 }
