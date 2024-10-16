@@ -7,5 +7,7 @@ namespace DeliverySystem.DevTeam.DAL.Models
         public bool IsDeleted { get; set; }
 		public DateTime CreatedOn { get; set; }
 		public DateTime? LastUpdatedOn { get; set; }
+		public string? CreatedById { get; set; }
+		public string? LastUpdatedById { get; set; }
 	}
 }
