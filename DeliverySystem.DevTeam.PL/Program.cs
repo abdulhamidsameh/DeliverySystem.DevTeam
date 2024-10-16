@@ -1,14 +1,8 @@
-
-using DeliverySystem.DevTeam.BLL.Interfaces;
-using DeliverySystem.DevTeam.BLL.Repositories;
-using DeliverySystem.DevTeam.DAL.Models;
-using DeliverySystem.DevTeam.PL.Helpers;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+using DeliverySystem.DevTeam.PL.Seeds;
 
 namespace DeliverySystem.DevTeam.PL
 {
-    public class Program
+	public class Program
     {
         public static async Task Main(string[] args)
         {
@@ -22,7 +16,9 @@ namespace DeliverySystem.DevTeam.PL
                     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies(false);
                 });
 			builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
-			  .AddEntityFrameworkStores<ApplicationDbContext>();
+			  .AddEntityFrameworkStores<ApplicationDbContext>()
+			  .AddDefaultTokenProviders()
+			  ;
 			builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 			builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
 
@@ -30,10 +26,14 @@ namespace DeliverySystem.DevTeam.PL
 			var scope = app.Services.CreateScope();
 			var services = scope.ServiceProvider;
 			var _dbcontext = services.GetRequiredService<ApplicationDbContext>();
+			var roleManger = services.GetRequiredService<RoleManager<ApplicationRole>>();
+			var userManger = services.GetRequiredService<UserManager<ApplicationUser>>();
 			var _loogerFactory = services.GetRequiredService<ILoggerFactory>();
 			try
 			{
 				await _dbcontext.Database.MigrateAsync();
+				await DefaultRoles.SeedAsync(roleManger);
+				await DefaultUsers.SeedAdminUserAsync(userManger);
 			}
 			catch (Exception ex)
 			{
@@ -53,6 +53,7 @@ namespace DeliverySystem.DevTeam.PL
 
             app.UseRouting();
 
+			app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
