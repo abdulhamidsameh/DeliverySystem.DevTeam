@@ -157,6 +157,12 @@ $(document).ready(function () {
 
 
     });
+    // Handle SignOut
+    $('.js-signout').on('click', function () {
+        $('#SignOut').submit();
+    });
+
+
 });
 
 
