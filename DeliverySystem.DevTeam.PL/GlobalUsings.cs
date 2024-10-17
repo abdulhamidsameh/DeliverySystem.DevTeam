@@ -24,3 +24,4 @@ global using DeliverySystem.DevTeam.PL.Helpers;
 global using System.Reflection;
 global using Microsoft.AspNetCore.Authorization;
 global using DeliverySystem.DevTeam.PL.ViewModels.Users;
+global using System.Security.Claims;

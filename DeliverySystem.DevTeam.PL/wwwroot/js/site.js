@@ -15,6 +15,13 @@ function ShowSuccessFullyMessage(Message = 'Saved SuccessFully') {
 
 }
 
+// Select2
+function applySelect2() {
+    $('.js-select2').select2();
+    $('.js-select2').on('select2:select', function (e) {
+        $('form').not('#SignOut').validate().element('#' + $(this).attr('id'));
+    });
+}
 
 function ShowErrorMessage(Message = 'Something went wrong!') {
 
@@ -55,6 +62,10 @@ function OnModalSuccess(item) {
 $(document).ready(function () {
    
 
+    // Select2
+    applySelect2();
+
+
     var Message = $('#Message').text();
     if (Message !== '') {
 
@@ -90,6 +101,7 @@ $(document).ready(function () {
 
                 $.validator.unobtrusive.parse(Modal);
 
+                applySelect2();
             },
 
 
