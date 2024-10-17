@@ -1,4 +1,7 @@
 using DeliverySystem.DevTeam.PL.Seeds;
+using DeliverySystem.DevTeam.DAL.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace DeliverySystem.DevTeam.PL
 {
@@ -9,16 +12,17 @@ namespace DeliverySystem.DevTeam.PL
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddMvc();
             builder.Services.AddDbContext<ApplicationDbContext>(
                 options =>
                 {
                     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies(false);
                 });
+
 			builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
 			  .AddEntityFrameworkStores<ApplicationDbContext>()
-			  .AddDefaultTokenProviders()
-			  ;
+			  .AddDefaultUI()
+			  .AddDefaultTokenProviders();
 			builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 			builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
 
@@ -56,7 +60,15 @@ namespace DeliverySystem.DevTeam.PL
 			app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapControllerRoute(
+			
+
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapRazorPages();
+				endpoints.MapControllers();
+			});
+
+			app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 

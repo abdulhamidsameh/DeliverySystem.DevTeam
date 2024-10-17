@@ -22,3 +22,4 @@ global using DeliverySystem.DevTeam.PL.Const;
 global using DeliverySystem.DevTeam.BLL.Repositories;
 global using DeliverySystem.DevTeam.PL.Helpers;
 global using System.Reflection;
+global using Microsoft.AspNetCore.Authorization;
