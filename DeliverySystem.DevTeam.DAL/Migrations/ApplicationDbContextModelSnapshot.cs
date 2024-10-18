@@ -17,7 +17,7 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -136,6 +136,10 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasFilter("[Email] IS NOT NULL");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -143,6 +147,10 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("UserName")
+                        .IsUnique()
+                        .HasFilter("[UserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -266,6 +274,9 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
                     b.Property<DateTime?>("LastUpdatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("MerchantId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -284,6 +295,8 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("LastUpdatedById");
+
+                    b.HasIndex("MerchantId");
 
                     b.HasIndex("WarhouseId");
 
@@ -476,6 +489,12 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
                         .WithMany()
                         .HasForeignKey("LastUpdatedById");
 
+                    b.HasOne("DeliverySystem.DevTeam.DAL.Models.Merchant", "Merchant")
+                        .WithMany("Products")
+                        .HasForeignKey("MerchantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DeliverySystem.DevTeam.DAL.Models.Warhouse", "Warhouse")
                         .WithMany("Products")
                         .HasForeignKey("WarhouseId")
@@ -485,6 +504,8 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
                     b.Navigation("CreatedBy");
 
                     b.Navigation("LastUpdatedBy");
+
+                    b.Navigation("Merchant");
 
                     b.Navigation("Warhouse");
                 });
@@ -553,6 +574,11 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DeliverySystem.DevTeam.DAL.Models.Merchant", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("DeliverySystem.DevTeam.DAL.Models.Warhouse", b =>
