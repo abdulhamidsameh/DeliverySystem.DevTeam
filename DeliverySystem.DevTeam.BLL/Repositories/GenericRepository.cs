@@ -27,5 +27,6 @@ namespace DeliverySystem.DevTeam.BLL.Repositories
 			=> SpeceficationsEvaluator<T>.GetQuery(_dbContext.Set<T>(), spec).ToList();
 		public T? GetWithSpec(ISpecification<T> spec)
 			=> SpeceficationsEvaluator<T>.GetQuery(_dbContext.Set<T>(), spec).FirstOrDefault();
+		
 	}
 }
