@@ -4,24 +4,30 @@
 
 using DeliverySystem.DevTeam.BLL.Specifications;
 using DeliverySystem.DevTeam.DAL.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace DeliverySystem.DevTeam.PL.Controllers
 {
+	[Authorize(Roles = AppRoles.Merchant)]
 	public class ProductsController : Controller
 	{
 
-		public ProductsController(IMapper mapper, IUnitOfWork unitOf, ApplicationDbContext context)
+		public ProductsController(IMapper mapper, IUnitOfWork unitOf,
+			ApplicationDbContext context,
+			UserManager<ApplicationUser> userManager)
 		{
 
 			_Mapper = mapper;
 			_UnitOf = unitOf;
 			_Context = context;
+			_UserManager = userManager;
 		}
 
 
 		public IMapper _Mapper { get; }
 		public IUnitOfWork _UnitOf { get; }
 		public ApplicationDbContext _Context { get; }
+		public UserManager<ApplicationUser> _UserManager { get; }
 
 		public IActionResult Index()
 		{
@@ -34,6 +40,7 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 		#region Add Product
 		[HttpGet]
 		[AjaxOnly]
+
 		public IActionResult Create()
 		{
 			var Warhouse = _UnitOf.Repository<Warhouse>().GetAll();
@@ -45,24 +52,31 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 			return PartialView("_Form", Result);
 		}
 		[HttpPost]
-		public IActionResult Create(CreateOrUodateProductViewModel model)
+
+
+		public async Task<IActionResult> Create(CreateOrUodateProductViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
+				var user = await _UserManager.GetUserAsync(User);
+				if (user != null)
+				{
+					var email = await _UserManager.GetEmailAsync(user);
+					var product = _Mapper.Map<Product>(model);
+					var spec = new BaseSpacefications<Merchant>(c => c.Email == email);
+					var Merchant = _UnitOf.Repository<Merchant>().GetAllWithSpec(spec).FirstOrDefault();
+					product.MerchantId = Merchant.Id;
+					_UnitOf.Repository<Product>().Add(product);
+					_UnitOf.Complete();
+					return PartialView("_ProductRow", product);
+				}
 
-				var product = _Mapper.Map<Product>(model);
 
-				_UnitOf.Repository<Product>().Add(product);
-				//TempData["message"] = "Saved SuccessFully";
-
-				_UnitOf.Complete();
-				return PartialView("_ProductRow", product);
 
 			}
-			else
-			{
-				return View("_Form", model);
-			}
+
+			return View("_Form", model);
+
 
 
 
@@ -160,6 +174,8 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 		{
 			var spec = new BaseSpacefications<Warhouse>(W => W.Id == id);
 			spec.Includes.Add(W => W.Products);
+
+
 			var Warhouse = _UnitOf.Repository<Warhouse>().GetAllWithSpec(spec).ToList();
 			return View(Warhouse);
 		}

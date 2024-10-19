@@ -14,7 +14,8 @@ namespace DeliverySystem.DevTeam.PL.ViewModels.Products
 		public decimal? Price { get; set; }
         [Required]
         public int? QuantityAvailable { get; set; }
+		public int MerchantId { get; set; }
 
-        public List<Warhouse>? Warhouses { get; set; }
+		public List<Warhouse>? Warhouses { get; set; }
 	}
 }
