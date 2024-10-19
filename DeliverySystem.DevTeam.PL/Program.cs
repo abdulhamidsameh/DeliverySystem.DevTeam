@@ -1,11 +1,6 @@
-using DeliverySystem.DevTeam.PL.Seeds;
-using DeliverySystem.DevTeam.DAL.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-
 namespace DeliverySystem.DevTeam.PL
 {
-    public class Program
+	public class Program
     {
         public static async Task Main(string[] args)
         {
