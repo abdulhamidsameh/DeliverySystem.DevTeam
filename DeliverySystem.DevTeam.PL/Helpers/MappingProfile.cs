@@ -1,4 +1,6 @@
-﻿namespace DeliverySystem.DevTeam.PL.Helpers
+﻿using DeliverySystem.DevTeam.PL.ViewModels.Delivery;
+
+namespace DeliverySystem.DevTeam.PL.Helpers
 {
     public class MappingProfile :Profile
     {
@@ -14,6 +16,7 @@
 
             // Roles
             CreateMap<ApplicationRole, CreateRoleViewModel>().ReverseMap();
+            CreateMap<Delivery, CreateOrUpdateDeliveryViewModel>().ReverseMap();
             CreateMap<ApplicationRole, RoleToUpdateOrReturnViewModel>().ReverseMap();
 
             // Users

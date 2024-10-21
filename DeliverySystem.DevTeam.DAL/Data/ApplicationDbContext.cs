@@ -21,5 +21,6 @@ namespace DeliverySystem.DevTeam.DAL.Data
 		public DbSet<Merchant> Merchants { get; set; }
 		public DbSet<Warhouse> Warehouses { get; set; }
 		public DbSet<City> Citys { get; set; }
+		public DbSet<Delivery> Deliveries { get; set; }
 	}
 }

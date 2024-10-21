@@ -1,4 +1,7 @@
-﻿namespace DeliverySystem.DevTeam.PL.ViewModels.Users
+﻿
+
+
+namespace DeliverySystem.DevTeam.PL.ViewModels.Users
 {
     public class UserFormViewModel
     {

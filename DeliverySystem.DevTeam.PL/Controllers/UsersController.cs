@@ -72,10 +72,25 @@
 						CreatedOn = DateTime.Now,
 					};
 					_unitOfWork.Repository<Merchant>().Add(merchant);
-					var num = _unitOfWork.Complete();
+					
+				}
+				if (model.SelectedRoles.Contains(AppRoles.Delivery))
+				{
+					var delivery = new Delivery()
+					{
+						Name = model.FullName,
+						Email = model.Email,
+						CreatedById = User.FindFirst(ClaimTypes.NameIdentifier)!.Value,
+						Address = string.Empty,
+						PhoneNumber = string.Empty,
+						IsDeleted = false,
+						CreatedOn = DateTime.Now,
+					};
+					_unitOfWork.Repository<Delivery>().Add(delivery);
+					
 
 				}
-				return PartialView("_UserRow", viewModel);
+					return PartialView("_UserRow", viewModel);
 			}
 
 			return BadRequest(string.Join(',', result.Errors.Select(e => e.Description)));

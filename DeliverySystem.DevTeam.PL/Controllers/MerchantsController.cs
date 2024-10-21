@@ -3,14 +3,18 @@
 	public class MerchantsController : Controller
 	{
 		private readonly ApplicationDbContext _dbContext;
+		private readonly IUnitOfWork _unitOfWork;
+		private readonly IMapper _mapper;
 
-		public MerchantsController(ApplicationDbContext dbContext)
+		public MerchantsController(ApplicationDbContext dbContext, IUnitOfWork unitOfWork, IMapper mapper)
 		{
-			this._dbContext = dbContext;
+			_dbContext = dbContext;
+			_unitOfWork = unitOfWork;
+			_mapper = mapper;
 		}
 		public IActionResult Index()
 		{
-			var merchants = _dbContext.Merchants.AsNoTracking().ToList();
+			var merchants = _unitOfWork.Repository<Merchant>().GetAll();
 			return View(merchants);
 		}
 
@@ -34,8 +38,8 @@
 				PhoneNumber = model.PhoneNumber,
 				Address = model.Address
 			};
-			_dbContext.Merchants.Add(merchant);
-			_dbContext.SaveChanges();
+			_unitOfWork.Repository<Merchant>().Add(merchant);
+			_unitOfWork.Complete();
 
 			return PartialView("_MerchantRow",merchant);
 		}
@@ -45,7 +49,7 @@
 		[AjaxOnly]
 		public IActionResult Edit(int id)
 		{
-			var merchant = _dbContext.Merchants.Find(id);
+			var merchant = _unitOfWork.Repository<Merchant>().GetById(id);
 
 			if (merchant is null)
 				return NotFound();
@@ -71,7 +75,7 @@
 			{
 				return BadRequest();
 			}
-			var merchant = _dbContext.Merchants.Find(model.Id);
+			var merchant = _unitOfWork.Repository<Merchant>().GetById(model.Id);
 
 			if (merchant is not null)
 			{
@@ -81,7 +85,7 @@
 				merchant.Address = model.Address;
 				merchant.LastUpdatedOn = DateTime.Now;
 
-				_dbContext.SaveChanges();
+				_unitOfWork.Complete();
 
 
 				return PartialView("_MerchantRow",merchant);
@@ -93,12 +97,12 @@
 		[HttpPost]
 		public IActionResult ToggleStatus(int id)
 		{
-			var merchant = _dbContext.Merchants.Find(id);
+			var merchant = _unitOfWork.Repository<Merchant>().GetById(id);
 			if (merchant is null)
 				return NotFound();
 			merchant.IsDeleted = !merchant.IsDeleted;
 			merchant.LastUpdatedOn = DateTime.Now;
-			_dbContext.SaveChanges();
+			_unitOfWork.Complete();
 			return Ok(merchant.LastUpdatedOn.ToString());
 
 

@@ -1,13 +1,15 @@
-﻿@model Warhouse
-<tr class="Js-details-product"  data-id="@Model.Id" role="button" >
+﻿@model Delivery
+<tr>
 	<td>@Model.Name</td>
-	<td>@Model.City</td>
+	<td>@Model.Email</td>
 	<td>
 		<span class="badge badge-@(Model.IsDeleted ? "danger" : "success") badge-sm js-status">
 			@(Model.IsDeleted ? "Deleted" : "Available")
 		</span>
 
 	</td>
+	<td>@Model.Address</td>
+	<td>@Model.PhoneNumber</td>
 	<td>@Model.CreatedOn</td>
 	<td class="js-update">@Model.LastUpdatedOn</td>
 	<td>
@@ -21,10 +23,10 @@
 				</svg>
 			</a>
 			<ul class="dropdown-menu">
-				<li><a class="dropdown-item js-render-modal " data-url="/Warehouse/Edit/@Model.Id" data-title="Edit Warehouse" data-update="true">Edit</a></li>
-				<li><a class="dropdown-item Js-toggle-status" data-title="Warehouse" href="JavaScript:;" data-url="/Warehouse/ToggleStatus/@Model.Id">Toggle status</a></li>
+				<li><a class="dropdown-item js-render-modal " data-url="/Delivery/Edit/@Model.Id" data-title="Edit Delivery" data-update="true">Edit</a></li>
+				<li><a class="dropdown-item Js-toggle-status" href="JavaScript:;" data-title="Deliveries" data-url="/Delivery/ToggleStatus/@Model.Id">Toggle status</a></li>
+
 			</ul>
 		</div>
 	</td>
 </tr>
-
