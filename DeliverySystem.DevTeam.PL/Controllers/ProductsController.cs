@@ -175,7 +175,7 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 			var spec = new BaseSpacefications<Warhouse>(W => W.Id == id);
 			spec.Includes.Add(W => W.Products);
 
-
+			ViewBag.ProductDetails = id;
 			var Warhouse = _UnitOf.Repository<Warhouse>().GetAllWithSpec(spec).ToList();
 			return View(Warhouse);
 		}

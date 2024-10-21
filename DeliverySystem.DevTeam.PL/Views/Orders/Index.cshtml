@@ -1,0 +1,212 @@
+﻿@using DeliverySystem.DevTeam.PL.ViewModels.orders
+@model CreateOrderViewModel
+
+<h2>Create Order</h2>
+
+<form asp-action="Create" method="post">
+    @if (@Model.WarehouseIId > 0)
+    {
+        <input type="hidden" asp-for="WarehouseIId" value="@Model.WarehouseIId" />
+    }
+    
+    <div class="form-group m-3">
+        <label asp-for="OrderDate">Order Date</label>
+        <input asp-for="OrderDate" class="form-control" type="date" required />
+        <span asp-validation-for="OrderDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group m-3">
+        <label asp-for="PhoneNumber">Phone Number</label>
+        <input asp-for="PhoneNumber" class="form-control" required />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group m-3">
+        <label asp-for="Address">Address</label>
+        <input asp-for="Address" class="form-control" required />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+
+    <div class="m-3">
+        <select id="product-select" class="form-select" required>
+            <option value="0">Select Product</option>
+            @foreach (var product in Model.ProductsList)
+            {
+                <option value="@product.Id" data-available="@product.QuantityAvailable">@product.Name</option>
+            }
+        </select>
+        <span class="text-danger" asp-validation-for="ProductId"></span>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-center">Product Name</th>
+                <th class="text-center">Available Quantity</th>
+                <th class="text-center">Quantity</th>
+                <th class="text-center">Unit Price</th>
+                <th class="text-center">Total</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody id="product-rows">
+         
+        </tbody>
+    </table>
+
+    <input type="hidden" name="TotalPrice" id="totalPriceInput" />
+
+    <button type="button" class="btn btn-primary" id="createOrderButton">Create Order</button>
+</form>
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirm Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Order Date: <span id="modalOrderDate"></span></p>
+                <p>Phone Number: <span id="modalPhoneNumber"></span></p>
+                <p>Address: <span id="modalAddress"></span></p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modalProductRows">
+                 
+                    </tbody>
+                </table>
+                <p>Total Price: <span id="modalTotalPrice"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="confirmOrderButton">Confirm Order</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastr/build/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastr/build/toastr.min.css" />
+    
+    <script>
+        $(document).ready(function () {
+            $('#product-select').change(function () {
+                var productId = $(this).val();
+                if (productId > 0) {
+                    $.ajax({
+                        url: '@Url.Action("GetProductDetails", "Orders")',
+                        type: 'GET',
+                        data: { productId: productId },
+                        success: function (data) {
+                            if (data) {
+                                var row = '<tr>' +
+                                    '<td class="text-center">' + data.productName + '</td>' +
+                                    '<td class="text-center">' + data.currentQuantity + '</td>' +
+                                    '<td class="text-center">' +
+                                    '<input type="number" name="Products[' + $('#product-rows tr').length + '].Quantity" class="form-control product-quantity" min="1" max="' + data.currentQuantity + '" required ' + (data.currentQuantity === 0 ? 'disabled' : '') + ' />' +
+                                    '</td>' +
+                                    '<td class="text-center"><input type="hidden" name="Products[' + $('#product-rows tr').length + '].ProductId" value="' + productId + '" /><input type="number" class="form-control product-price" value="' + data.price + '" readonly /></td>' +
+                                    '<td class="text-center total">0.00</td>' +
+                                    '<td class="text-center"><button type="button" class="btn btn-danger remove-row">Remove</button></td>' +
+                                    '</tr>';
+                                $('#product-rows').append(row);
+                                updateTotalPrice(); 
+                            }
+                        }
+                    });
+                }
+            });
+
+            $(document).on('input', '.product-quantity', function () {
+                var row = $(this).closest('tr');
+                var quantity = parseFloat($(this).val());
+                var price = parseFloat(row.find('.product-price').val());
+                var availableQuantity = parseFloat(row.find('td').eq(1).text());
+
+                if (quantity > availableQuantity) {
+                    toastr.error("Error: Quantity cannot exceed available quantity (" + availableQuantity + ")");
+                    $(this).val('');
+                    row.find('.total').text('0.00'); 
+                } else if (quantity > 0 && quantity <= availableQuantity) {
+                    var total = quantity * price;
+                    row.find('.total').text(total.toFixed(2)); 
+                } else {
+                    row.find('.total').text('0.00'); 
+                }
+
+                updateTotalPrice(); 
+            });
+
+            $(document).on('click', '.remove-row', function () {
+                $(this).closest('tr').remove();
+                updateTotalPrice(); 
+            });
+
+            $('#createOrderButton').click(function (e) {
+                e.preventDefault(); 
+
+                if (!$('input[name="OrderDate"]').val() || !$('input[name="PhoneNumber"]').val() || !$('input[name="Address"]').val() || $('#product-rows tr').length === 0) {
+                    toastr.warning('Please fill in all fields and add at least one product before creating the order.');
+                    return; 
+                }
+
+                $('#modalOrderDate').text($('input[name="OrderDate"]').val());
+                $('#modalPhoneNumber').text($('input[name="PhoneNumber"]').val());
+                $('#modalAddress').text($('input[name="Address"]').val());
+
+                $('#modalProductRows').empty();
+
+                $('#product-rows tr').each(function () {
+                    var productName = $(this).find('td').eq(0).text();
+                    var quantity = $(this).find('.product-quantity').val();
+                    var unitPrice = $(this).find('.product-price').val();
+                    var total = $(this).find('.total').text();
+
+                    var row = '<tr>' +
+                        '<td>' + productName + '</td>' +
+                        '<td>' + quantity + '</td>' +
+                        '<td>' + unitPrice + '</td>' +
+                        '<td>' + total + '</td>' +
+                        '</tr>';
+
+                    $('#modalProductRows').append(row);
+                });
+
+                var totalPrice = 0;
+                $('#product-rows .total').each(function () {
+                    totalPrice += parseFloat($(this).text());
+                });
+                $('#modalTotalPrice').text(totalPrice.toFixed(2));
+                $('#totalPriceInput').val(totalPrice.toFixed(2)); 
+
+                $('#confirmationModal').modal('show');
+            });
+
+            $('#confirmOrderButton').click(function () {
+                $('form').submit(); 
+                toastr.success('Order has been created successfully!'); 
+            });
+
+            function updateTotalPrice() {
+                var totalPrice = 0;
+                $('#product-rows .total').each(function () {
+                    totalPrice += parseFloat($(this).text());
+                });
+                $('#totalPriceInput').val(totalPrice.toFixed(2)); 
+            }
+        });
+    </script>
+}

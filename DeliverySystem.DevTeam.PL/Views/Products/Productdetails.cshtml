@@ -1,6 +1,8 @@
 ﻿@model List<Warhouse>
 
-
+@{
+    var id = ViewBag.ProductDetails;
+}
 
 
 
@@ -10,10 +12,8 @@
 
 }
 
-<button class="btn btn-primary btn-sm m-3 ">Create Oreder</button>
+<a class="btn btn-primary btn-sm m-3 " asp-action="Create" asp-route-id="@id" asp-controller="Orders">Create Oreder</a>
 <partial name="_DataTable" />
-
-
 
 <div class="py-5 pb-6">
 
