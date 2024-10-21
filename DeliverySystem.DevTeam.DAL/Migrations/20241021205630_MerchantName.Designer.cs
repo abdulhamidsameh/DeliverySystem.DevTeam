@@ -4,6 +4,7 @@ using DeliverySystem.DevTeam.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeliverySystem.DevTeam.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241021205630_MerchantName")]
+    partial class MerchantName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -197,54 +200,6 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
                     b.HasIndex("LastUpdatedById");
 
                     b.ToTable("Citys");
-                });
-
-            modelBuilder.Entity("DeliverySystem.DevTeam.DAL.Models.Delivery", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatedById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastUpdatedById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("LastUpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("LastUpdatedById");
-
-                    b.ToTable("Deliveries");
                 });
 
             modelBuilder.Entity("DeliverySystem.DevTeam.DAL.Models.Merchant", b =>
@@ -617,21 +572,6 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
                 });
 
             modelBuilder.Entity("DeliverySystem.DevTeam.DAL.Models.City", b =>
-                {
-                    b.HasOne("DeliverySystem.DevTeam.DAL.Models.ApplicationUser", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
-                    b.HasOne("DeliverySystem.DevTeam.DAL.Models.ApplicationUser", "LastUpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("LastUpdatedById");
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("LastUpdatedBy");
-                });
-
-            modelBuilder.Entity("DeliverySystem.DevTeam.DAL.Models.Delivery", b =>
                 {
                     b.HasOne("DeliverySystem.DevTeam.DAL.Models.ApplicationUser", "CreatedBy")
                         .WithMany()

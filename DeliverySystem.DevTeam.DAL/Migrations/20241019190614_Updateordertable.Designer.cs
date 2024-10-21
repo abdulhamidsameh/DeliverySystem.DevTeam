@@ -4,6 +4,7 @@ using DeliverySystem.DevTeam.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeliverySystem.DevTeam.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241019190614_Updateordertable")]
+    partial class Updateordertable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -199,54 +202,6 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
                     b.ToTable("Citys");
                 });
 
-            modelBuilder.Entity("DeliverySystem.DevTeam.DAL.Models.Delivery", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatedById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastUpdatedById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("LastUpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("LastUpdatedById");
-
-                    b.ToTable("Deliveries");
-                });
-
             modelBuilder.Entity("DeliverySystem.DevTeam.DAL.Models.Merchant", b =>
                 {
                     b.Property<int>("Id")
@@ -328,10 +283,6 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
                     b.Property<int>("MerchantId")
                         .HasColumnType("int");
 
-                    b.Property<string>("MerchantName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
@@ -359,59 +310,6 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
                     b.HasIndex("WarehouseId");
 
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("DeliverySystem.DevTeam.DAL.Models.OrderProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CreatedById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastUpdatedById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("LastUpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("LastUpdatedById");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderProduct");
                 });
 
             modelBuilder.Entity("DeliverySystem.DevTeam.DAL.Models.Product", b =>
@@ -448,6 +346,9 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -464,6 +365,8 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
                     b.HasIndex("LastUpdatedById");
 
                     b.HasIndex("MerchantId");
+
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("WarhouseId");
 
@@ -631,21 +534,6 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
                     b.Navigation("LastUpdatedBy");
                 });
 
-            modelBuilder.Entity("DeliverySystem.DevTeam.DAL.Models.Delivery", b =>
-                {
-                    b.HasOne("DeliverySystem.DevTeam.DAL.Models.ApplicationUser", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
-                    b.HasOne("DeliverySystem.DevTeam.DAL.Models.ApplicationUser", "LastUpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("LastUpdatedById");
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("LastUpdatedBy");
-                });
-
             modelBuilder.Entity("DeliverySystem.DevTeam.DAL.Models.Merchant", b =>
                 {
                     b.HasOne("DeliverySystem.DevTeam.DAL.Models.ApplicationUser", "CreatedBy")
@@ -692,37 +580,6 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
                     b.Navigation("Warehouse");
                 });
 
-            modelBuilder.Entity("DeliverySystem.DevTeam.DAL.Models.OrderProduct", b =>
-                {
-                    b.HasOne("DeliverySystem.DevTeam.DAL.Models.ApplicationUser", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
-                    b.HasOne("DeliverySystem.DevTeam.DAL.Models.ApplicationUser", "LastUpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("LastUpdatedById");
-
-                    b.HasOne("DeliverySystem.DevTeam.DAL.Models.Order", "Order")
-                        .WithMany("OrderProducts")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DeliverySystem.DevTeam.DAL.Models.Product", "Product")
-                        .WithMany("OrderProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("LastUpdatedBy");
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("DeliverySystem.DevTeam.DAL.Models.Product", b =>
                 {
                     b.HasOne("DeliverySystem.DevTeam.DAL.Models.ApplicationUser", "CreatedBy")
@@ -738,6 +595,10 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
                         .HasForeignKey("MerchantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("DeliverySystem.DevTeam.DAL.Models.Order", null)
+                        .WithMany("products")
+                        .HasForeignKey("OrderId");
 
                     b.HasOne("DeliverySystem.DevTeam.DAL.Models.Warhouse", "Warhouse")
                         .WithMany("Products")
@@ -827,12 +688,7 @@ namespace DeliverySystem.DevTeam.DAL.Migrations
 
             modelBuilder.Entity("DeliverySystem.DevTeam.DAL.Models.Order", b =>
                 {
-                    b.Navigation("OrderProducts");
-                });
-
-            modelBuilder.Entity("DeliverySystem.DevTeam.DAL.Models.Product", b =>
-                {
-                    b.Navigation("OrderProducts");
+                    b.Navigation("products");
                 });
 
             modelBuilder.Entity("DeliverySystem.DevTeam.DAL.Models.Warhouse", b =>

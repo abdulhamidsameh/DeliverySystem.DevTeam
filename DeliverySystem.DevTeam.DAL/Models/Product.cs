@@ -14,6 +14,7 @@ namespace DeliverySystem.DevTeam.DAL.Models
         public int MerchantId { get; set; }
 
         public Merchant Merchant { get; set; }
+        public ICollection<OrderProduct> OrderProducts { get; set; }
 
     }
 }

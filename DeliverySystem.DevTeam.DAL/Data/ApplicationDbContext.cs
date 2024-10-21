@@ -2,13 +2,14 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Reflection.Emit;
 namespace DeliverySystem.DevTeam.DAL.Data
 {
-	public class ApplicationDbContext :IdentityDbContext<ApplicationUser,ApplicationRole,string>
-	{
-		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-			:base(options)
-		{
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+    {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
 
 		}
 		protected override void OnModelCreating(ModelBuilder builder)
@@ -21,6 +22,5 @@ namespace DeliverySystem.DevTeam.DAL.Data
 		public DbSet<Merchant> Merchants { get; set; }
 		public DbSet<Warhouse> Warehouses { get; set; }
 		public DbSet<City> Citys { get; set; }
-		public DbSet<Delivery> Deliveries { get; set; }
 	}
 }
