@@ -5,14 +5,16 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 	public class WarehouseController : Controller
 	{
 		private readonly ApplicationDbContext _dbContext;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public WarehouseController(ApplicationDbContext dbContext)
+		public WarehouseController(ApplicationDbContext dbContext,IUnitOfWork unitOfWork)
 		{
 			_dbContext = dbContext;
+			_unitOfWork = unitOfWork;
 		}
 		public IActionResult Index()
 		{
-			var warehouse = _dbContext.Warehouses.AsNoTracking().ToList();
+			var warehouse = _unitOfWork.Repository<Warhouse>().GetAll();
 			return View(warehouse);
 		}
 
@@ -34,8 +36,8 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 				Name = model.Name,
 				City = model.City,
 			};
-			_dbContext.Warehouses.Add(warehouse);
-			_dbContext.SaveChanges();
+			_unitOfWork.Repository<Warhouse>().Add(warehouse);
+			_unitOfWork.Complete();
 
 			return PartialView("_WarehouseRow", warehouse);
 		}
@@ -45,7 +47,7 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 		[AjaxOnly]
 		public IActionResult Edit(int id)
 		{
-			var warehouse = _dbContext.Warehouses.Find(id);
+			var warehouse = _unitOfWork.Repository<Warhouse>().GetById(id);
 
 			if (warehouse is null)
 				return NotFound();
@@ -70,7 +72,7 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 			{
 				return BadRequest();
 			}
-			var warehouse = _dbContext.Warehouses.Find(model.Id);
+			var warehouse = _unitOfWork.Repository<Warhouse>().GetById(model.Id);
 
 			if (warehouse is not null)
 			{
@@ -79,7 +81,7 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 				
 				warehouse.LastUpdatedOn = DateTime.Now;
 
-				_dbContext.SaveChanges();
+				_unitOfWork.Complete();
 
 
 				return PartialView("_WarehouseRow", warehouse);
@@ -91,12 +93,12 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 		[HttpPost]
 		public IActionResult ToggleStatus(int id)
 		{
-			var warehouse = _dbContext.Warehouses.Find(id);
+			var warehouse = _unitOfWork.Repository<Warhouse>().GetById(id);
 			if (warehouse is null)
 				return NotFound();
 			warehouse.IsDeleted = !warehouse.IsDeleted;
 			warehouse.LastUpdatedOn = DateTime.Now;
-			_dbContext.SaveChanges();
+			_unitOfWork.Complete();
 			return Ok(warehouse.LastUpdatedOn.ToString());
 
 
