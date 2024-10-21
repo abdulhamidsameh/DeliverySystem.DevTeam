@@ -28,7 +28,7 @@ function ShowErrorMessage(Message = 'Something went wrong!') {
     Swal.fire({
         icon: "error",
         title: "error",
-        text: Message,
+        text: Message.responseText !== undefined ? Message.responseText : Message,
         customClass: {
             confirmButton: "btn btn-outline btn-outline-dashed btn-outline-danger btn-active-light-danger"
         }
