@@ -6,7 +6,7 @@
 		{
 			ApplicationUser admin = new ApplicationUser()
 			{
-				UserName = "admin@shipFast.com",
+				UserName = "admin",
 				Email = "admin@shipFast.com",
 				FullName = "Admin"
 			};
