@@ -32,7 +32,7 @@ namespace DeliverySystem.DevTeam.DAL.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             /// مكسل اعمل لكل واحد ملف ههههههه
-            builder.Entity<OrderProduct>()
+            builder.Entity<OrderProduct>() 
                 .HasOne(op => op.Product)
                 .WithMany(p => p.OrderProducts)
                 .HasForeignKey(op => op.ProductId)
