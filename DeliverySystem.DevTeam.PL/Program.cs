@@ -1,3 +1,5 @@
+using DeliverySystem.DevTeam.PL.Extensions;
+
 namespace DeliverySystem.DevTeam.PL
 {
 	public class Program
@@ -6,28 +8,8 @@ namespace DeliverySystem.DevTeam.PL
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddMvc();
-            builder.Services.AddDbContext<ApplicationDbContext>(
-                options =>
-                {
-                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies(false);
-                });
-
-            builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
-              .AddEntityFrameworkStores<ApplicationDbContext>()
-              .AddDefaultUI()
-              .AddDefaultTokenProviders();
-
-            builder.Services.Configure<IdentityOptions>(options =>
-            {
-                options.Password.RequiredLength = 8;
-                //options.User.AllowedUserNameCharacters = RegexPatterns.Username;
-                options.User.RequireUniqueEmail = true;
-            });
-            builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsFactory>();
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
+            // Add Application Service To DI Container
+            ApplicationServicesExtension.ApplicationServices(builder.Services, builder.Configuration);
 
             var app = builder.Build();
             var scope = app.Services.CreateScope();
