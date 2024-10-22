@@ -72,6 +72,7 @@
 						CreatedOn = DateTime.Now,
 					};
 					_unitOfWork.Repository<Merchant>().Add(merchant);
+					_unitOfWork.Complete();
 					
 				}
 				if (model.SelectedRoles.Contains(AppRoles.Delivery))
@@ -87,10 +88,11 @@
 						CreatedOn = DateTime.Now,
 					};
 					_unitOfWork.Repository<Delivery>().Add(delivery);
-					
+					_unitOfWork.Complete();
+
 
 				}
-					return PartialView("_UserRow", viewModel);
+				return PartialView("_UserRow", viewModel);
 			}
 
 			return BadRequest(string.Join(',', result.Errors.Select(e => e.Description)));
