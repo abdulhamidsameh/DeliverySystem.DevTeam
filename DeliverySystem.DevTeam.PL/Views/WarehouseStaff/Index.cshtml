@@ -1,0 +1,125 @@
+﻿   @model IEnumerable<Order>;
+@{
+	ViewData["Title"] = "Orders";
+}
+
+@section Style {
+	<link href="~/assets/plugins/datatables/datatables.bundle.css" rel="stylesheet" />
+
+}
+<div class="alert  bg-light-primary border border-primary border-3 border-dashed d-flex justify-content-between   w-100 p-5 mb-10">
+
+	<div class="d-flex align-items-center">
+		<div class="symbol symbol-50px">
+
+			<span class="badge badge-light">
+				<span class="svg-icon svg-icon-2 svg-icon-primary">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M12.0444 17.9444V12.1444L17.0444 15.0444C18.6444 15.9444 19.1445 18.0444 18.2445 19.6444C17.3445 21.2444 15.2445 21.7444 13.6445 20.8444C12.6445 20.2444 12.0444 19.1444 12.0444 17.9444ZM7.04445 15.0444L12.0444 12.1444L7.04445 9.24445C5.44445 8.34445 3.44444 8.84445 2.44444 10.4444C1.54444 12.0444 2.04445 14.0444 3.64445 15.0444C4.74445 15.6444 6.04445 15.6444 7.04445 15.0444ZM12.0444 6.34444V12.1444L17.0444 9.24445C18.6444 8.34445 19.1445 6.24444 18.2445 4.64444C17.3445 3.04444 15.2445 2.54445 13.6445 3.44445C12.6445 4.04445 12.0444 5.14444 12.0444 6.34444Z" fill="currentColor" />
+						<path opacity="0.3" d="M7.04443 9.24445C6.04443 8.64445 5.34442 7.54444 5.34442 6.34444C5.34442 4.54444 6.84444 3.04443 8.64444 3.04443C10.4444 3.04443 11.9444 4.54444 11.9444 6.34444V12.1444L7.04443 9.24445ZM17.0444 15.0444C18.0444 15.6444 19.3444 15.6444 20.3444 15.0444C21.9444 14.1444 22.4444 12.0444 21.5444 10.4444C20.6444 8.84444 18.5444 8.34445 16.9444 9.24445L11.9444 12.1444L17.0444 15.0444ZM7.04443 15.0444C6.04443 15.6444 5.34442 16.7444 5.34442 17.9444C5.34442 19.7444 6.84444 21.2444 8.64444 21.2444C10.4444 21.2444 11.9444 19.7444 11.9444 17.9444V12.1444L7.04443 15.0444Z" fill="currentColor" />
+					</svg>
+				</span>
+			</span>
+		</div>
+		<!--begin::Content-->
+		<div class="d-flex flex-column pe-0 pe-sm-10">
+			<h5 class="mb-1">Orders</h5>
+
+		</div>
+		<!--end::Content-->
+	</div>
+
+
+	
+</div>
+
+
+
+
+
+
+
+<partial name="_DataTable" />
+
+
+
+<div class="card-body">
+
+
+
+
+
+	<div class="py-5 pb-6">
+		<div class="table-responsive">
+			<table class="table table-row-bordered gy-7 js-datatable" data-decument-title="Product">
+				<thead>
+					<tr class="fw-bold fs-6 text-gray-800">
+						<th>MerchantName</th>
+						<th>WarehouseName</th>
+						<th>IsDeleted</th>
+						<th>TotalPrice</th>
+						<th>CreatedOn</th>
+						<th>LastUpdatedOn</th>
+					
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var order in Model)
+					{
+						<tr>
+							<td>@order.Merchant.Name</td>
+							<td>@order.Warehouse.Name</td>
+							<td>
+
+								<span class="badge badge-@(order.IsDeleted ? "danger" : "primary") badge-sm js-status">
+
+
+									@(order.IsDeleted ? "Deleted" : "Available")
+								</span>
+
+							</td>
+							<td>@order.TotalPrice</td>
+							
+							<td>@order.CreatedOn</td>
+							<td class="js-update">@order.LastUpdatedOn</td>
+							<td>
+
+
+
+								<div class="dropdown">
+									<a class="btn  btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+										<svg class="svg-icon svg-icon-2x svg-icon-primary" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M6 7H3C2.4 7 2 6.6 2 6V3C2 2.4 2.4 2 3 2H6C6.6 2 7 2.4 7 3V6C7 6.6 6.6 7 6 7Z" fill="currentColor" />
+											<path opacity="0.3" d="M13 7H10C9.4 7 9 6.6 9 6V3C9 2.4 9.4 2 10 2H13C13.6 2 14 2.4 14 3V6C14 6.6 13.6 7 13 7ZM21 6V3C21 2.4 20.6 2 20 2H17C16.4 2 16 2.4 16 3V6C16 6.6 16.4 7 17 7H20C20.6 7 21 6.6 21 6ZM7 13V10C7 9.4 6.6 9 6 9H3C2.4 9 2 9.4 2 10V13C2 13.6 2.4 14 3 14H6C6.6 14 7 13.6 7 13ZM14 13V10C14 9.4 13.6 9 13 9H10C9.4 9 9 9.4 9 10V13C9 13.6 9.4 14 10 14H13C13.6 14 14 13.6 14 13ZM21 13V10C21 9.4 20.6 9 20 9H17C16.4 9 16 9.4 16 10V13C16 13.6 16.4 14 17 14H20C20.6 14 21 13.6 21 13ZM7 20V17C7 16.4 6.6 16 6 16H3C2.4 16 2 16.4 2 17V20C2 20.6 2.4 21 3 21H6C6.6 21 7 20.6 7 20ZM14 20V17C14 16.4 13.6 16 13 16H10C9.4 16 9 16.4 9 17V20C9 20.6 9.4 21 10 21H13C13.6 21 14 20.6 14 20ZM21 20V17C21 16.4 20.6 16 20 16H17C16.4 16 16 16.4 16 17V20C16 20.6 16.4 21 17 21H20C20.6 21 21 20.6 21 20Z" fill="currentColor" />
+										</svg>
+									</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item js-render-modal " data-url="/Products/Edit/@order.Id" data-title="Edit Product" data-update="true">Edit</a></li>
+										<li><a class="dropdown-item Js-toggle-status" href="JavaScript:;" data-title="product" data-url="/Products/ToggleStatus/@order.Id">Toggle status</a></li>
+
+									</ul>
+								</div>
+							</td>
+						</tr>
+					
+					}
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+
+</div>
+
+
+
+
+@section Plugins {
+	<script src="~/assets/plugins/datatables/datatables.bundle.js"></script>
+}
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+
+}
