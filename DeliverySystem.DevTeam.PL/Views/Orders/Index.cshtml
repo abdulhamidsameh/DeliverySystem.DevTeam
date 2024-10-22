@@ -65,7 +65,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="confirmationModalLabel">Confirm Order</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close btn btn-danger js-close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -89,7 +89,7 @@
                 <p>Total Price: <span id="modalTotalPrice"></span></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary js-close" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="confirmOrderButton">Confirm Order</button>
             </div>
         </div>
@@ -101,6 +101,10 @@
     
     <script>
         $(document).ready(function () {
+            $('.js-close').on('click', function () {
+                $('#confirmationModal').modal('hide');
+            });
+
             $('#product-select').change(function () {
                 var productId = $(this).val();
                 if (productId > 0) {
@@ -157,7 +161,8 @@
                 e.preventDefault(); 
 
                 if (!$('input[name="OrderDate"]').val() || !$('input[name="PhoneNumber"]').val() || !$('input[name="Address"]').val() || $('#product-rows tr').length === 0) {
-                    toastr.warning('Please fill in all fields and add at least one product before creating the order.');
+                    // toastr.warning('Please fill in all fields and add at least one product before creating the order.');
+                    ShowErrorMessage("Please fill in all fields and add at least one product before creating the order.");
                     return; 
                 }
 

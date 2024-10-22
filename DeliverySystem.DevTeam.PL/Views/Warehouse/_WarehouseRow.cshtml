@@ -1,14 +1,14 @@
 ﻿@model Warhouse
-<tr class="Js-details-product"  data-id="@Model.Id" role="button" >
-	<td>@Model.Name</td>
-	<td>@Model.City</td>
-	<td>
+<tr  >
+	<td class="Js-details-product" data-id="@Model.Id" role="button">@Model.Name</td>
+	<td class="Js-details-product" data-id="@Model.Id" role="button">@Model.City</td>
+	<td class="Js-details-product" data-id="@Model.Id" role="button">
 		<span class="badge badge-@(Model.IsDeleted ? "danger" : "success") badge-sm js-status">
 			@(Model.IsDeleted ? "Deleted" : "Available")
 		</span>
 
 	</td>
-	<td>@Model.CreatedOn</td>
+	<td class="Js-details-product" data-id="@Model.Id" role="button">@Model.CreatedOn</td>
 	<td class="js-update">@Model.LastUpdatedOn</td>
 	<td>
 

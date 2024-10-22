@@ -5,7 +5,7 @@ namespace DeliverySystem.DevTeam.PL.ViewModels.orders
     public class CreateOrderViewModel
     {
         [Required]
-        public DateTime OrderDate { get; set; }
+        public DateTime OrderDate { get; set; } = DateTime.Now;
         [Required]
         [Phone(ErrorMessage = "Invalid phone number format")]
         public string PhoneNumber { get; set; }
