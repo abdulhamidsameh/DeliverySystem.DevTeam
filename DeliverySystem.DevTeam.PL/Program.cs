@@ -25,7 +25,7 @@ namespace DeliverySystem.DevTeam.PL
                 //options.User.AllowedUserNameCharacters = RegexPatterns.Username;
                 options.User.RequireUniqueEmail = true;
             });
-
+            builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsFactory>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
 

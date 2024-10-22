@@ -27,4 +27,4 @@ global using DeliverySystem.DevTeam.PL.ViewModels.Users;
 global using System.Security.Claims;
 global using System.ComponentModel.DataAnnotations;
 global using DeliverySystem.DevTeam.PL.Seeds;
-global using UoN.ExpressiveAnnotations.NetCore.Attributes;
+global using Microsoft.Extensions.Options;

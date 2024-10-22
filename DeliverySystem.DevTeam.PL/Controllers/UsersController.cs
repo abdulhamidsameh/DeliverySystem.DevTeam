@@ -21,6 +21,7 @@
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
+			var user = User;
 			var users = await _userManager.Users.ToListAsync();
 			var viewModel = _mapper.Map<IEnumerable<UserViewModel>>(users);
 			return View(viewModel);

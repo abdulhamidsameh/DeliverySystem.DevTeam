@@ -121,7 +121,7 @@ namespace DeliverySystem.DevTeam.PL.Areas.Identity.Pages.Account
 					ModelState.AddModelError(string.Empty, "Invalid login attempt.");
 					return Page();
 				}
-				var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+				var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: true);
 				if (result.Succeeded)
 				{
 					_logger.LogInformation("User logged in.");
