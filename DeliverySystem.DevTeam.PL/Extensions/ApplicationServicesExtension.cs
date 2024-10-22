@@ -26,6 +26,10 @@
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsFactory>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
+            services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                options.ValidationInterval = TimeSpan.Zero;
+            });
             return services;
         }
     }
