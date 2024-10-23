@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DeliverySystem.DevTeam.PL.Controllers
 {
+	[Authorize]
 	public class DeliveryController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;

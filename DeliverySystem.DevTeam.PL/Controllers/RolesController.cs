@@ -1,5 +1,6 @@
 ﻿namespace DeliverySystem.DevTeam.PL.Controllers
 {
+	[Authorize]
 	public class RolesController : Controller
 	{
 		private readonly RoleManager<ApplicationRole> _roleManager;

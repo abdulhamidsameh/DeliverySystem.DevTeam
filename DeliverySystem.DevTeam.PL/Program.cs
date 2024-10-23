@@ -32,10 +32,12 @@ namespace DeliverySystem.DevTeam.PL
 			// Configure the HTTP request pipeline.
 			if (!app.Environment.IsDevelopment())
 			{
-				app.UseExceptionHandler("/Home/Error");
 				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
 			}
+			app.UseExceptionHandler("/Home/Error");
+
+			app.UseStatusCodePagesWithRedirects("/Home/Error/{0}");
 
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
@@ -47,7 +49,7 @@ namespace DeliverySystem.DevTeam.PL
 
 			app.Use(async (context, next) =>
 			{
-				context.Response.Headers.Add(key: "X-Frame-Options", value: "Deny");
+				context.Response.Headers.Add("X-Frame-Options", "Deny");
 
 				await next();
 			});

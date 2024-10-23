@@ -1,5 +1,6 @@
 ﻿namespace DeliverySystem.DevTeam.PL.Controllers
 {
+    [Authorize]
 	public class OrdersController : Controller
     {
         public OrdersController(IUnitOfWork unitOf, UserManager<ApplicationUser> userManager)
