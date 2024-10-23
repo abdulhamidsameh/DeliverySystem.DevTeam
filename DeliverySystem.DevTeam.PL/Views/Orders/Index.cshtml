@@ -161,8 +161,8 @@
                 e.preventDefault(); 
 
                 if (!$('input[name="OrderDate"]').val() || !$('input[name="PhoneNumber"]').val() || !$('input[name="Address"]').val() || $('#product-rows tr').length === 0) {
-                    // toastr.warning('Please fill in all fields and add at least one product before creating the order.');
-                    ShowErrorMessage("Please fill in all fields and add at least one product before creating the order.");
+                    toastr.warning('Please fill in all fields and add at least one product before creating the order.');
+                    // ShowErrorMessage("Please fill in all fields and add at least one product before creating the order.");
                     return; 
                 }
 
