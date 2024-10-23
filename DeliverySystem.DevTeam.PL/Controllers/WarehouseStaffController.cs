@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DeliverySystem.DevTeam.BLL.Specifications;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DeliverySystem.DevTeam.PL.Controllers
 {
@@ -12,7 +13,15 @@ namespace DeliverySystem.DevTeam.PL.Controllers
         }
         public IActionResult Index()
         {
-            var orders = _unitOfWork.Repository<Order>().GetAll();
+            var spec = new BaseSpacefications<Order>(O => O.OrderStatus == OrderStatus.Processing);
+            spec.Includes.Add(O => O.Merchant);
+            spec.Includes.Add(O => O.Warehouse);
+
+			var orders = _unitOfWork.Repository<Order>().GetAllWithSpec(spec);
+            if(orders is null)
+                return NotFound();
+
+
             return View(orders);
         }
 
@@ -29,7 +38,7 @@ namespace DeliverySystem.DevTeam.PL.Controllers
             var order = _unitOfWork.Repository<Order>().GetById(id);
             if (order is null)
                 return NotFound();
-            order.OrderStatus = OrderStatus.Processing;
+            order.OrderStatus = OrderStatus.Shipped;
             _unitOfWork.Repository<Order>().Update(order);
             _unitOfWork.Complete();
             return RedirectToAction(nameof(Index));
