@@ -1,6 +1,4 @@
-﻿using DeliverySystem.DevTeam.DAL.Models;
-using Microsoft.EntityFrameworkCore;
-namespace DeliverySystem.DevTeam.BLL.Specifications
+﻿namespace DeliverySystem.DevTeam.BLL.Specifications
 {
 	internal static class SpeceficationsEvaluator<T> where T : BaseEntity
 	{

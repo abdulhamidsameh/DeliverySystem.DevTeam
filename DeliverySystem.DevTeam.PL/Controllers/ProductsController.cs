@@ -1,12 +1,4 @@
-﻿
-
-
-
-using DeliverySystem.DevTeam.BLL.Specifications;
-using DeliverySystem.DevTeam.DAL.Models;
-using Microsoft.AspNetCore.Identity;
-
-namespace DeliverySystem.DevTeam.PL.Controllers
+﻿namespace DeliverySystem.DevTeam.PL.Controllers
 {
 	[Authorize(Roles = AppRoles.Merchant)]
 	public class ProductsController : Controller

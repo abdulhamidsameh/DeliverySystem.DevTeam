@@ -1,6 +1,4 @@
-﻿
-
-namespace DeliverySystem.DevTeam.PL.Helpers
+﻿namespace DeliverySystem.DevTeam.PL.Helpers
 {
 	[HtmlTargetElement("a", Attributes = "active-when")]
 	public class ActiveTag : TagHelper
