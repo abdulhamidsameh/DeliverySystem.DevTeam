@@ -1,6 +1,4 @@
-﻿
-
-namespace DeliverySystem.DevTeam.PL.Controllers
+﻿namespace DeliverySystem.DevTeam.PL.Controllers
 {
 	public class RolesController : Controller
 	{

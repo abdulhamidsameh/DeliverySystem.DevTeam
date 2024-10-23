@@ -1,15 +1,6 @@
-﻿using DeliverySystem.DevTeam.BLL.Specifications;
-using DeliverySystem.DevTeam.DAL.Models;
-using DeliverySystem.DevTeam.PL.ViewModels.orders;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
-using Microsoft.EntityFrameworkCore;
-
-
-namespace DeliverySystem.DevTeam.PL.Controllers
+﻿namespace DeliverySystem.DevTeam.PL.Controllers
 {
-    public class OrdersController : Controller
+	public class OrdersController : Controller
     {
         public OrdersController(IUnitOfWork unitOf, UserManager<ApplicationUser> userManager)
         {

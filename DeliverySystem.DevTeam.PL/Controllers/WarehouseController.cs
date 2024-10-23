@@ -1,15 +1,11 @@
-﻿
-
-namespace DeliverySystem.DevTeam.PL.Controllers
+﻿namespace DeliverySystem.DevTeam.PL.Controllers
 {
 	public class WarehouseController : Controller
 	{
-		private readonly ApplicationDbContext _dbContext;
 		private readonly IUnitOfWork _unitOfWork;
 
-		public WarehouseController(ApplicationDbContext dbContext,IUnitOfWork unitOfWork)
+		public WarehouseController(IUnitOfWork unitOfWork)
 		{
-			_dbContext = dbContext;
 			_unitOfWork = unitOfWork;
 		}
 		public IActionResult Index()

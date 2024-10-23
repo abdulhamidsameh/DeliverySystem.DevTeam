@@ -2,13 +2,11 @@
 {
 	public class MerchantsController : Controller
 	{
-		private readonly ApplicationDbContext _dbContext;
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
 
-		public MerchantsController(ApplicationDbContext dbContext, IUnitOfWork unitOfWork, IMapper mapper)
+		public MerchantsController(IUnitOfWork unitOfWork, IMapper mapper)
 		{
-			_dbContext = dbContext;
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 		}

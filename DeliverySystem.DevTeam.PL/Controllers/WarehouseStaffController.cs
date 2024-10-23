@@ -1,9 +1,6 @@
-﻿using DeliverySystem.DevTeam.BLL.Specifications;
-using Microsoft.AspNetCore.Mvc;
-
-namespace DeliverySystem.DevTeam.PL.Controllers
+﻿namespace DeliverySystem.DevTeam.PL.Controllers
 {
-    public class WarehouseStaffController : Controller
+	public class WarehouseStaffController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
 
