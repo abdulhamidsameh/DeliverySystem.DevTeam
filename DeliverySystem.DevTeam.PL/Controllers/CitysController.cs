@@ -1,7 +1,6 @@
-﻿
-
-namespace DeliverySystem.DevTeam.PL.Controllers
+﻿namespace DeliverySystem.DevTeam.PL.Controllers
 {
+    [Authorize]
     public class CitysController : Controller
     {
 

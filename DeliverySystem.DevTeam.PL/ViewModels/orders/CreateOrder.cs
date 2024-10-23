@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DeliverySystem.DevTeam.PL.ViewModels.orders
+﻿namespace DeliverySystem.DevTeam.PL.ViewModels.orders
 {
     public class CreateOrderViewModel
     {

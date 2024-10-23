@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DeliverySystem.DevTeam.PL.ViewModels.Roles
+﻿namespace DeliverySystem.DevTeam.PL.ViewModels.Roles
 {
     public class CreateRoleViewModel
     {

@@ -28,3 +28,7 @@ global using System.Security.Claims;
 global using System.ComponentModel.DataAnnotations;
 global using DeliverySystem.DevTeam.PL.Seeds;
 global using Microsoft.Extensions.Options;
+global using DeliverySystem.DevTeam.BLL.Specifications;
+global using DeliverySystem.DevTeam.PL.ViewModels.orders;
+global using DeliverySystem.DevTeam.PL.ViewModels.Delivery;
+global using Microsoft.AspNetCore.WebUtilities;

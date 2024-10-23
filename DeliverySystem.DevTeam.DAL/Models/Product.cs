@@ -1,5 +1,4 @@
-﻿
-namespace DeliverySystem.DevTeam.DAL.Models
+﻿namespace DeliverySystem.DevTeam.DAL.Models
 {
 	public class Product : BaseEntity
 	{

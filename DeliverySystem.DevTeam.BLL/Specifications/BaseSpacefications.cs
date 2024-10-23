@@ -1,6 +1,4 @@
-﻿using DeliverySystem.DevTeam.DAL.Models;
-using System.Linq.Expressions;
-namespace DeliverySystem.DevTeam.BLL.Specifications
+﻿namespace DeliverySystem.DevTeam.BLL.Specifications
 {
 	public class BaseSpacefications<T> : ISpecification<T> where T : BaseEntity
 	{
