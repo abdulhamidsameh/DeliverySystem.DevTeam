@@ -32,6 +32,7 @@
 			{
 				Name = model.Name,
 				City = model.City,
+				Commition = model.Commition,
 			};
 			_unitOfWork.Repository<Warhouse>().Add(warehouse);
 			_unitOfWork.Complete();

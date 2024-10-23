@@ -54,7 +54,7 @@
         </tbody>
     </table>
 
-    <input type="hidden" name="TotalPrice" id="totalPriceInput" />
+    <input type="hidden" name="SubTotal" id="totalPriceInput" />
 
     <button type="button" class="btn btn-primary" id="createOrderButton">Create Order</button>
 </form>
@@ -86,7 +86,10 @@
                  
                     </tbody>
                 </table>
-                <p>Total Price: <span id="modalTotalPrice"></span></p>
+                <p>Sub SubTotal: <span id="modalTotalPrice"></span></p>
+                <p>WarehouseCommation: <span>@Model.WarehouseCommation</span></p>
+                <p>Total <span id="finalTotalPrice"></span></p>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary js-close" data-dismiss="modal">Close</button>
@@ -101,6 +104,8 @@
     
     <script>
         $(document).ready(function () {
+            var warehouseCommation = parseFloat('@Model.WarehouseCommation'); // Get the warehouse commission
+
             $('.js-close').on('click', function () {
                 $('#confirmationModal').modal('hide');
             });
@@ -125,7 +130,7 @@
                                     '<td class="text-center"><button type="button" class="btn btn-danger remove-row">Remove</button></td>' +
                                     '</tr>';
                                 $('#product-rows').append(row);
-                                updateTotalPrice(); 
+                                updateTotalPrice();
                             }
                         }
                     });
@@ -138,32 +143,36 @@
                 var price = parseFloat(row.find('.product-price').val());
                 var availableQuantity = parseFloat(row.find('td').eq(1).text());
 
-                if (quantity > availableQuantity) {
+                // Prevent negative quantity
+                if (quantity < 0) {
+                    toastr.error("Error: Quantity cannot be negative.");
+                    $(this).val('');
+                    row.find('.total').text('0.00');
+                } else if (quantity > availableQuantity) {
                     toastr.error("Error: Quantity cannot exceed available quantity (" + availableQuantity + ")");
                     $(this).val('');
-                    row.find('.total').text('0.00'); 
+                    row.find('.total').text('0.00');
                 } else if (quantity > 0 && quantity <= availableQuantity) {
                     var total = quantity * price;
-                    row.find('.total').text(total.toFixed(2)); 
+                    row.find('.total').text(total.toFixed(2));
                 } else {
-                    row.find('.total').text('0.00'); 
+                    row.find('.total').text('0.00');
                 }
 
-                updateTotalPrice(); 
+                updateTotalPrice();
             });
 
             $(document).on('click', '.remove-row', function () {
                 $(this).closest('tr').remove();
-                updateTotalPrice(); 
+                updateTotalPrice();
             });
 
             $('#createOrderButton').click(function (e) {
-                e.preventDefault(); 
+                e.preventDefault();
 
                 if (!$('input[name="OrderDate"]').val() || !$('input[name="PhoneNumber"]').val() || !$('input[name="Address"]').val() || $('#product-rows tr').length === 0) {
                     toastr.warning('Please fill in all fields and add at least one product before creating the order.');
-                    // ShowErrorMessage("Please fill in all fields and add at least one product before creating the order.");
-                    return; 
+                    return;
                 }
 
                 $('#modalOrderDate').text($('input[name="OrderDate"]').val());
@@ -192,15 +201,21 @@
                 $('#product-rows .total').each(function () {
                     totalPrice += parseFloat($(this).text());
                 });
+
+                // Calculate and display total
                 $('#modalTotalPrice').text(totalPrice.toFixed(2));
-                $('#totalPriceInput').val(totalPrice.toFixed(2)); 
+                $('#totalPriceInput').val(totalPrice.toFixed(2));
+
+                // Calculate and display final total (SubTotal + WarehouseCommation)
+                var finalTotal = totalPrice + warehouseCommation;
+                $('#finalTotalPrice').text(finalTotal.toFixed(2));
 
                 $('#confirmationModal').modal('show');
             });
 
             $('#confirmOrderButton').click(function () {
-                $('form').submit(); 
-                toastr.success('Order has been created successfully!'); 
+                $('form').submit();
+                toastr.success('Order has been created successfully!');
             });
 
             function updateTotalPrice() {
@@ -208,8 +223,9 @@
                 $('#product-rows .total').each(function () {
                     totalPrice += parseFloat($(this).text());
                 });
-                $('#totalPriceInput').val(totalPrice.toFixed(2)); 
+                $('#totalPriceInput').val(totalPrice.toFixed(2));
             }
         });
+
     </script>
 }

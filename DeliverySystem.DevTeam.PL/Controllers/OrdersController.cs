@@ -26,11 +26,12 @@
             var spc = new BaseSpacefications<Product>(c => c.WarhouseId == id);
             var product = _UnitOf.Repository<Product>().GetAllWithSpec(spc).ToList();
 
-
+            var WarehouseCommation = _UnitOf.Repository<Warhouse>().GetById(id).Commition;
             var viewModel = new CreateOrderViewModel
             {
                 ProductsList = product,
-                WarehouseIId = id
+                WarehouseIId = id,
+                WarehouseCommation = WarehouseCommation,
                 
             };
 
@@ -40,6 +41,8 @@
         [HttpPost]
         public async Task<IActionResult> Create(CreateOrderViewModel model)
         {
+
+            var WarehouseCommation = _UnitOf.Repository<Warhouse>().GetById(model.WarehouseIId).Commition;
             var user = await _UserManager.GetUserAsync(User);
             var email = await _UserManager.GetEmailAsync(user);
             var spec = new BaseSpacefications<Merchant>(c => c.Email == email);
@@ -55,8 +58,9 @@
                 WarehouseId = model.WarehouseIId,
                 MerchantId = Merchant.Id,
                 OrderStatus = OrderStatus.Processing,
-                TotalPrice = model.TotalPrice,
+                SubTotal = model.SubTotal,
                 MerchantName = Merchant.Name,
+                Total = model.SubTotal + WarehouseCommation
 
             };
 

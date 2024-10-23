@@ -18,7 +18,8 @@
         [Required]
         public List<OrderProduct>? Products { get; set; } = new List<OrderProduct>();
         public IEnumerable<Product>? ProductsList { get; set; }
-        public decimal TotalPrice { get; set; }
+        public decimal SubTotal { get; set; }
+        public decimal WarehouseCommation { get; set; }
         public string MerchantName { get; set; }
     }
     public class CreateOrderProduct
