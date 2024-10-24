@@ -24,7 +24,11 @@
 
         public IActionResult GetOrderDetails(int id)
         {
-            var order = _unitOfWork.Repository<Order>().GetById(id);
+			var spec = new BaseSpacefications<Order>(O => O.OrderStatus == OrderStatus.Processing);
+			spec.Includes.Add(O => O.Merchant);
+			spec.Includes.Add(O => O.Warehouse);
+            spec.Includes.Add(o => o.OrderProducts);
+			var order = _unitOfWork.Repository<Order>().GetWithSpec(spec);
             if(order is null) 
                 return NotFound();
             return View(order);
