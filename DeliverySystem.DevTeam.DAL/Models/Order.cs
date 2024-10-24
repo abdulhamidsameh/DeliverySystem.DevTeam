@@ -18,6 +18,8 @@
         public bool IsCashOnDelivery { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public ICollection<OrderProduct> OrderProducts { get; set; }
+        public int? DeliveryId { get; set; }
+        public Delivery? Delivery { get; set; }
 
     }
 }
