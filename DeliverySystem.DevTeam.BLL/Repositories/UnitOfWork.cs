@@ -1,14 +1,4 @@
-﻿using DeliverySystem.DevTeam.BLL.Interfaces;
-using DeliverySystem.DevTeam.DAL.Data;
-using DeliverySystem.DevTeam.DAL.Models;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeliverySystem.DevTeam.BLL.Repositories
+﻿namespace DeliverySystem.DevTeam.BLL.Repositories
 {
 	public class UnitOfWork : IUnitOfWork
 	{

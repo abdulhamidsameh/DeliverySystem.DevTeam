@@ -1,5 +1,6 @@
 ﻿namespace DeliverySystem.DevTeam.PL.Controllers
 {
+	[Authorize]
 	public class WarehouseController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
@@ -31,6 +32,7 @@
 			{
 				Name = model.Name,
 				City = model.City,
+				Commition = model.Commition,
 			};
 			_unitOfWork.Repository<Warhouse>().Add(warehouse);
 			_unitOfWork.Complete();

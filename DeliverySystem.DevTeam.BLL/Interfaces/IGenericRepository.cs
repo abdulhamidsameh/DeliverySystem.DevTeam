@@ -1,6 +1,4 @@
-﻿using DeliverySystem.DevTeam.BLL.Specifications;
-using DeliverySystem.DevTeam.DAL.Models;
-namespace DeliverySystem.DevTeam.BLL.Interfaces
+﻿namespace DeliverySystem.DevTeam.BLL.Interfaces
 {
 	public interface IGenericRepository<T> where T : BaseEntity
     {

@@ -1,6 +1,4 @@
-﻿
-
-namespace DeliverySystem.DevTeam.PL.Filters
+﻿namespace DeliverySystem.DevTeam.PL.Filters
 {
 	public class AjaxOnlyAttribute : ActionMethodSelectorAttribute
 	{

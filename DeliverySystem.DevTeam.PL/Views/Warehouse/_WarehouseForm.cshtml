@@ -26,7 +26,13 @@
 			<span asp-validation-for="City" class="text-danger"></span>
 		</div>
 	</div>
-
+	<div class="mb-5">
+		<div class="form-floating mb-2">
+			<input type="number" class="form-control" placeholder="Commition" asp-for="Commition" />
+			<label asp-for="Commition"></label>
+			<span asp-validation-for="Commition" class="text-danger"></span>
+		</div>
+	</div>
 
 	<partial name="_ModalFooter" />
 </form>

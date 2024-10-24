@@ -1,11 +1,6 @@
-﻿using DeliverySystem.DevTeam.DAL.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
-using System.Reflection.Emit;
-namespace DeliverySystem.DevTeam.DAL.Data
+﻿namespace DeliverySystem.DevTeam.DAL.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+	public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -47,8 +42,8 @@ namespace DeliverySystem.DevTeam.DAL.Data
         public DbSet<OrderProduct> OrderProduct { get; set; }
         public DbSet<Warhouse> Warehouses { get; set; }
         public DbSet<City> Citys { get; set; }
-        public DbSet<Delivery> deliveries { get; set; }
-
+        //public DbSet<Delivery> Deliveries { get; set; }
+        // Deliveries
     }
 
 }

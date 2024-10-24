@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DeliverySystem.DevTeam.PL.ViewModels.Products
+﻿namespace DeliverySystem.DevTeam.PL.ViewModels.Products
 {
 	public class CreateOrUodateProductViewModel
 	{

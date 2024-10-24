@@ -1,8 +1,6 @@
-﻿using DeliverySystem.DevTeam.PL.ViewModels.Delivery;
-using Microsoft.AspNetCore.Mvc;
-
-namespace DeliverySystem.DevTeam.PL.Controllers
+﻿namespace DeliverySystem.DevTeam.PL.Controllers
 {
+	[Authorize]
 	public class DeliveryController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DeliverySystem.DevTeam.PL.ViewModels.orders
+﻿namespace DeliverySystem.DevTeam.PL.ViewModels.orders
 {
     public class CreateOrderViewModel
     {
@@ -20,7 +18,8 @@ namespace DeliverySystem.DevTeam.PL.ViewModels.orders
         [Required]
         public List<OrderProduct>? Products { get; set; } = new List<OrderProduct>();
         public IEnumerable<Product>? ProductsList { get; set; }
-        public decimal TotalPrice { get; set; }
+        public decimal SubTotal { get; set; }
+        public decimal WarehouseCommation { get; set; }
         public string MerchantName { get; set; }
     }
     public class CreateOrderProduct

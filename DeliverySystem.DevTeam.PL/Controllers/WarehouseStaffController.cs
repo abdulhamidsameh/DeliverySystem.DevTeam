@@ -1,5 +1,6 @@
 ﻿namespace DeliverySystem.DevTeam.PL.Controllers
 {
+    [Authorize]
 	public class WarehouseStaffController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

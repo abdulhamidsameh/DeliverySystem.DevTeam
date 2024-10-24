@@ -1,10 +1,4 @@
-﻿using DeliverySystem.DevTeam.BLL.Interfaces;
-using DeliverySystem.DevTeam.BLL.Specifications;
-using DeliverySystem.DevTeam.DAL.Data;
-using DeliverySystem.DevTeam.DAL.Models;
-using Microsoft.EntityFrameworkCore;
-
-namespace DeliverySystem.DevTeam.BLL.Repositories
+﻿namespace DeliverySystem.DevTeam.BLL.Repositories
 {
 	public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 	{

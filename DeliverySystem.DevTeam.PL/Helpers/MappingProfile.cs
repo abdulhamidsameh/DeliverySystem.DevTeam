@@ -1,6 +1,4 @@
-﻿using DeliverySystem.DevTeam.PL.ViewModels.Delivery;
-
-namespace DeliverySystem.DevTeam.PL.Helpers
+﻿namespace DeliverySystem.DevTeam.PL.Helpers
 {
     public class MappingProfile :Profile
     {
