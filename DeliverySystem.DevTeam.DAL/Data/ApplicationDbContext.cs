@@ -27,13 +27,6 @@
                 .OnDelete(DeleteBehavior.Restrict);
 
             /// مكسل اعمل لكل واحد ملف ههههههه
-            builder.Entity<OrderProduct>()
-                .HasOne(op => op.Product)
-                .WithMany(p => p.OrderProducts)
-                .HasForeignKey(op => op.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            /// مكسل اعمل لكل واحد ملف ههههههه
         }
 
         public DbSet<Product> Products { get; set; }

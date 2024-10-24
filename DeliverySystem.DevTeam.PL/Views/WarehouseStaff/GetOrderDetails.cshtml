@@ -1,49 +1,51 @@
 ﻿@model Order
 
 <div class="container mt-5">
-    <div class="card">
-        <div class="card-header bg-primary text-white d-flex justify-content-center align-items-center">
-            <h1>Order Details</h1>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title"> Order Number: @Model.Id</h5>
-            <p class="card-text"><strong>Merchant Name:</strong> @Model.Merchant.Name</p>
-            <p class="card-text"><strong>Order Status:</strong> @Model.OrderStatus</p>
-            <p class="card-text"><strong> Order Date:</strong> @Model.OrderDate.ToString("dd/MM/yyyy")</p>
-            <hr />
-            <h2 class="mt-4 ">Products:</h2>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>product</th>
-                        <th>quantity</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.OrderProducts)
-                    {
-                        <tr>
-                            <td>@item.Name</td>
-                            <td>@item.Quantity</td>
-                              <td>55</td> 
-                           
-                        </tr>
-                    }
-                </tbody>
-            </table>
+	<div class="card">
+		<div class="card-header bg-primary text-white d-flex justify-content-center align-items-center">
+			<h1>Order Details</h1>
+		</div>
+		<div class="card-body">
+			<h5 class="card-title"> Order Number: @Model.Id</h5>
+			<p class="card-text"><strong>Merchant Name:</strong> @Model.Merchant.Name</p>
+			<p class="card-text"><strong>Order Status:</strong> @Model.OrderStatus</p>
+			<p class="card-text"><strong> Order Date:</strong> @Model.OrderDate.ToString("dd/MM/yyyy")</p>
+			<hr />
+			<h2 class="mt-4 ">Products:</h2>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>product</th>
+						<th>quantity</th>
+						<th>Price</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model.OrderProducts)
+					{
+						<tr>
+							<td>@item.Name</td>
+							<td>@item.Quantity</td>
+							<td>@item.Price</td>
+					
+						</tr>
+					}
+				</tbody>
+			</table>
 
-            <div class="mt-4">
-                <p><strong> Total Price:</strong> @Model.SubTotal.ToString("C")</p>
-                	<form method="post" class="menu-link px-5" asp-action="ConfirmOrder"  asp-route-id="@Model.Id">
+			<div class="mt-4">
+				<p><strong> SubTotal Price:</strong> @Model.SubTotal.ToString("C")</p>
+				<p><strong> Warehouse Commition:</strong> @Model.Warehouse.Commition.ToString("C")</p>
+				<p><strong> Total Price:</strong> @Model.Total.ToString("C")</p>
+				<form method="post" class="menu-link px-5" asp-action="ConfirmOrder" asp-route-id="@Model.Id">
 
-							<button class="btn btn-primary p-2" type="submit">Confirm Order</button>
+					<button class="btn btn-primary p-2" type="submit">Confirm Order</button>
 
-						</form>
+				</form>
 
 
-             
-            </div>
-        </div>
-    </div>
+
+			</div>
+		</div>
+	</div>
 </div>
