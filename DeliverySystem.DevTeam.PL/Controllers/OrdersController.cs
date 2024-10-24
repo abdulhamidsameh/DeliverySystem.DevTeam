@@ -89,7 +89,8 @@
                     Quantity = product.Quantity,
                     Name = dbProduct.Name,
                     Description = dbProduct.Description,
-                    
+                    Price = dbProduct.Price 
+
                 };
                 _UnitOf.Repository<OrderProduct>().Add(orderProduct);
 
