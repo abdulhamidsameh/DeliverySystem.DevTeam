@@ -76,8 +76,9 @@
 			{
 				warehouse.Name = model.Name;
 				warehouse.City = model.City;
-				
-				warehouse.LastUpdatedOn = DateTime.Now;
+				warehouse.Commition = model.Commition;
+
+                warehouse.LastUpdatedOn = DateTime.Now;
 
 				_unitOfWork.Complete();
 
