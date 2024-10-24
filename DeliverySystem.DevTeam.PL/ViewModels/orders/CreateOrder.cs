@@ -8,6 +8,8 @@
         [Phone(ErrorMessage = "Invalid phone number format")]
         public string PhoneNumber { get; set; }
         [Required]
+        public bool IsCashOnDelivery { get; set; }
+
         public string Address { get; set; }
         [Required]
         public int WarehouseId { get; set; }

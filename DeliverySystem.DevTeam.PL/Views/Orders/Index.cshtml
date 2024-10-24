@@ -11,7 +11,7 @@
     
     <div class="form-group m-3">
         <label asp-for="OrderDate">Order Date</label>
-        <input asp-for="OrderDate" class="form-control" type="date" required />
+        <input asp-for="OrderDate" class="form-control" type="date" required readonly />
         <span asp-validation-for="OrderDate" class="text-danger"></span>
     </div>
 
@@ -25,6 +25,13 @@
         <label asp-for="Address">Address</label>
         <input asp-for="Address" class="form-control" required />
         <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+    <div class="form-group m-3">
+        <div class="form-check">
+            <input asp-for="IsCashOnDelivery" class="form-check-input" type="checkbox" />
+            <label asp-for="IsCashOnDelivery" class="form-check-label"></label>
+            <span asp-validation-for="IsCashOnDelivery" class="text-danger"></span>
+        </div>
     </div>
 
     <div class="m-3">
@@ -112,6 +119,22 @@
 
             $('#product-select').change(function () {
                 var productId = $(this).val();
+
+                // تحقق مما إذا كان المنتج قد تم اختياره مسبقًا
+                var isProductSelected = false;
+                $('#product-rows tr').each(function () {
+                    var selectedProductId = $(this).find('input[type="hidden"]').val();
+                    if (selectedProductId == productId) {
+                        isProductSelected = true;
+                        return false; // الخروج من التكرار عند العثور على المنتج
+                    }
+                });
+
+                if (isProductSelected) {
+                    toastr.warning("You have already selected this product.");
+                    return; // إيقاف التنفيذ إذا كان المنتج قد تم اختياره مسبقًا
+                }
+
                 if (productId > 0) {
                     $.ajax({
                         url: '@Url.Action("GetProductDetails", "Orders")',
@@ -143,7 +166,7 @@
                 var price = parseFloat(row.find('.product-price').val());
                 var availableQuantity = parseFloat(row.find('td').eq(1).text());
 
-                // Prevent negative quantity
+                // Prevent negative or invalid quantity
                 if (quantity < 0) {
                     toastr.error("Error: Quantity cannot be negative.");
                     $(this).val('');
@@ -170,47 +193,69 @@
             $('#createOrderButton').click(function (e) {
                 e.preventDefault();
 
-                if (!$('input[name="OrderDate"]').val() || !$('input[name="PhoneNumber"]').val() || !$('input[name="Address"]').val() || $('#product-rows tr').length === 0) {
-                    toastr.warning('Please fill in all fields and add at least one product before creating the order.');
-                    return;
+                var isValid = true;
+
+                // التحقق من تعبئة جميع الحقول الأساسية
+                if (!$('input[name="OrderDate"]').val() || !$('input[name="PhoneNumber"]').val() || !$('input[name="Address"]').val()) {
+                    toastr.warning('Please fill in all fields before creating the order.');
+                    isValid = false;
                 }
 
-                $('#modalOrderDate').text($('input[name="OrderDate"]').val());
-                $('#modalPhoneNumber').text($('input[name="PhoneNumber"]').val());
-                $('#modalAddress').text($('input[name="Address"]').val());
+                // التحقق من وجود منتج واحد على الأقل
+                if ($('#product-rows tr').length === 0) {
+                    toastr.warning('Please add at least one product before creating the order.');
+                    isValid = false;
+                }
 
-                $('#modalProductRows').empty();
-
+                // التحقق من أن كل المنتجات لها كمية مدخلة
                 $('#product-rows tr').each(function () {
-                    var productName = $(this).find('td').eq(0).text();
                     var quantity = $(this).find('.product-quantity').val();
-                    var unitPrice = $(this).find('.product-price').val();
-                    var total = $(this).find('.total').text();
-
-                    var row = '<tr>' +
-                        '<td>' + productName + '</td>' +
-                        '<td>' + quantity + '</td>' +
-                        '<td>' + unitPrice + '</td>' +
-                        '<td>' + total + '</td>' +
-                        '</tr>';
-
-                    $('#modalProductRows').append(row);
+                    if (!quantity || quantity <= 0) {
+                        toastr.error('Please enter a valid quantity for all selected products.');
+                        isValid = false;
+                        return false; // إيقاف التحقق بعد العثور على خطأ
+                    }
                 });
 
-                var totalPrice = 0;
-                $('#product-rows .total').each(function () {
-                    totalPrice += parseFloat($(this).text());
-                });
+                // إذا كانت جميع التحققات صحيحة، عرض النافذة التأكيدية
+                if (isValid) {
+                    $('#modalOrderDate').text($('input[name="OrderDate"]').val());
+                    $('#modalPhoneNumber').text($('input[name="PhoneNumber"]').val());
+                    $('#modalAddress').text($('input[name="Address"]').val());
 
-                // Calculate and display total
-                $('#modalTotalPrice').text(totalPrice.toFixed(2));
-                $('#totalPriceInput').val(totalPrice.toFixed(2));
+                    $('#modalProductRows').empty();
 
-                // Calculate and display final total (SubTotal + WarehouseCommation)
-                var finalTotal = totalPrice + warehouseCommation;
-                $('#finalTotalPrice').text(finalTotal.toFixed(2));
+                    $('#product-rows tr').each(function () {
+                        var productName = $(this).find('td').eq(0).text();
+                        var quantity = $(this).find('.product-quantity').val();
+                        var unitPrice = $(this).find('.product-price').val();
+                        var total = $(this).find('.total').text();
 
-                $('#confirmationModal').modal('show');
+                        var row = '<tr>' +
+                            '<td>' + productName + '</td>' +
+                            '<td>' + quantity + '</td>' +
+                            '<td>' + unitPrice + '</td>' +
+                            '<td>' + total + '</td>' +
+                            '</tr>';
+
+                        $('#modalProductRows').append(row);
+                    });
+
+                    var totalPrice = 0;
+                    $('#product-rows .total').each(function () {
+                        totalPrice += parseFloat($(this).text());
+                    });
+
+                    // حساب وإظهار المجموع النهائي
+                    $('#modalTotalPrice').text(totalPrice.toFixed(2));
+                    $('#totalPriceInput').val(totalPrice.toFixed(2));
+
+                    // حساب وإظهار المجموع النهائي (SubTotal + WarehouseCommation)
+                    var finalTotal = totalPrice + warehouseCommation;
+                    $('#finalTotalPrice').text(finalTotal.toFixed(2));
+
+                    $('#confirmationModal').modal('show');
+                }
             });
 
             $('#confirmOrderButton').click(function () {
@@ -226,6 +271,8 @@
                 $('#totalPriceInput').val(totalPrice.toFixed(2));
             }
         });
+
+
 
     </script>
 }

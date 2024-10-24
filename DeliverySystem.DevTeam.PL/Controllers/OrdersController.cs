@@ -16,6 +16,7 @@
         {
             var spc = new BaseSpacefications<Order>();
             spc.Includes.Add(c => c.OrderProducts);
+            spc.Includes.Add(c => c.Merchant);
 
             var dbProduct = _UnitOf.Repository<Order>().GetAllWithSpec(spc).ToList();
             return View();
@@ -59,8 +60,8 @@
                 MerchantId = Merchant.Id,
                 OrderStatus = OrderStatus.Processing,
                 SubTotal = model.SubTotal,
-                MerchantName = Merchant.Name,
-                Total = model.SubTotal + WarehouseCommation
+                Total = model.SubTotal + WarehouseCommation,
+                IsCashOnDelivery = model.IsCashOnDelivery
 
             };
 

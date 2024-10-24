@@ -35,7 +35,9 @@
 
 		public IActionResult Create()
 		{
-			var Warhouse = _UnitOf.Repository<Warhouse>().GetAll();
+			var spec = new BaseSpacefications<Warhouse>(W => W.IsDeleted == false);
+			var Warhouse = _UnitOf.Repository<Warhouse>().GetAllWithSpec(spec);
+
 			var Result = new CreateOrUodateProductViewModel()
 			{
 
