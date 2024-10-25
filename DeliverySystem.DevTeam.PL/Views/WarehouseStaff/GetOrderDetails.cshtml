@@ -1,15 +1,31 @@
 ﻿@model Order
 
+<style>
+	.qrcode img{
+		height:300px;
+		width=300px;
+	}
+</style>
+
 <div class="container mt-5">
 	<div class="card">
 		<div class="card-header bg-primary text-white d-flex justify-content-center align-items-center">
 			<h1>Order Details</h1>
 		</div>
 		<div class="card-body">
-			<h5 class="card-title"> Order Number: @Model.Id</h5>
-			<p class="card-text"><strong>Merchant Name:</strong> @Model.Merchant.Name</p>
-			<p class="card-text"><strong>Order Status:</strong> @Model.OrderStatus</p>
-			<p class="card-text"><strong> Order Date:</strong> @Model.OrderDate.ToString("dd/MM/yyyy")</p>
+			<div class="Row">
+				<div class="col-md-5">
+					<h5 class="card-title"> Order Number: @Model.Id</h5>
+					<p class="card-text"><strong>Merchant Name:</strong> @Model.Merchant.Name</p>
+					<p class="card-text"><strong>Order Status:</strong> @Model.OrderStatus</p>
+					<p class="card-text"><strong> Order Date:</strong> @Model.OrderDate.ToString("dd/MM/yyyy")</p>
+				</div>
+				<div class="col-md-5 qrcode">
+					<h3>QR Code</h3>
+					<img src="@ViewBag.QRCodeImage" alt="QR Code for Order Details" />
+				</div>
+			</div>
+			
 			<hr />
 			<h2 class="mt-4 ">Products:</h2>
 			<table class="table table-striped">

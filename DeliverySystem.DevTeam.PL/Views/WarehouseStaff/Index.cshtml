@@ -82,9 +82,19 @@
 							
 							<td>@order.CreatedOn</td>
 							<td>
+								@* <div class="m-3">
+									<select  class="form-select" required>
+										<option value="0">Select Delivery</option>
+										@foreach (var delivery in Model)
+										{
+											<option value="@delivery.Id" >@delivery.Delivery.Name</option>
+										}
+									</select>
+									<span class="text-danger" asp-validation-for="@order.DeliveryId" ></span>
+								</div> *@
 
 
-								<a class="btn btn-primary" asp-controller="WarehouseStaff" asp-action="GetOrderDetails" asp-route-id="@order.Id">Prepare</a>
+								 <a class="btn btn-primary" asp-controller="WarehouseStaff" asp-action="GetOrderDetails" asp-route-id="@order.Id">Prepare</a> 
 
 							</td>
 						</tr>

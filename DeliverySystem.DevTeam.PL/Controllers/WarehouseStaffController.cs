@@ -1,50 +1,110 @@
-﻿namespace DeliverySystem.DevTeam.PL.Controllers
+﻿
+using QRCoder;
+using System.Drawing;
+using System.Drawing.Imaging;
+
+
+
+namespace DeliverySystem.DevTeam.PL.Controllers
 {
-    [Authorize]
-    public class WarehouseStaffController : Controller
-    {
-        private readonly IUnitOfWork _unitOfWork;
+	public static class BitmapExtention
+	{
+		public static byte[] ConvertBitmapToByteArray(this Bitmap bitmap)
+		{
+			using (MemoryStream ms = new MemoryStream())
+			{
+				bitmap.Save(ms, ImageFormat.Png);
+				return ms.ToArray();
+			}
+		}
+	}
 
-        public WarehouseStaffController(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
-        [HttpGet]
-        public IActionResult Index()
-        {
-            var spec = new BaseSpacefications<Order>(O => O.OrderStatus == OrderStatus.Processing);
-            spec.Includes.Add(O => O.Merchant);
-            spec.Includes.Add(O => O.Warehouse);
+	[Authorize]
+	public class WarehouseStaffController : Controller
+	{
+		private readonly IUnitOfWork _unitOfWork;
 
-            var orders = _unitOfWork.Repository<Order>().GetAllWithSpec(spec);
-            if (orders is null)
-                return NotFound();
+		public WarehouseStaffController(IUnitOfWork unitOfWork)
+		{
+			_unitOfWork = unitOfWork;
+		}
+		[HttpGet]
+		public IActionResult Index()
+		{
+			var spec = new BaseSpacefications<Order>(O => O.OrderStatus == OrderStatus.Processing);
+			spec.Includes.Add(O => O.Merchant);
+			spec.Includes.Add(O => O.Warehouse);
+
+			var orders = _unitOfWork.Repository<Order>().GetAllWithSpec(spec);
+			if (orders is null)
+				return NotFound();
 
 
-            return View(orders);
-        }
-        [HttpGet]
-        public IActionResult GetOrderDetails(int id)
-        {
-            var spec = new BaseSpacefications<Order>(O => (O.Id == id && O.OrderStatus == OrderStatus.Processing));
-            spec.Includes.Add(O => O.Merchant);
-            spec.Includes.Add(O => O.Warehouse);
-            spec.Includes.Add(o => o.OrderProducts);
-            var order = _unitOfWork.Repository<Order>().GetWithSpec(spec);
-            if (order is null)
-                return NotFound();
-            return View(order);
-        }
-        [HttpPost]
-        public IActionResult ConfirmOrder(int id)
-        {
-            var order = _unitOfWork.Repository<Order>().GetById(id);
-            if (order is null)
-                return NotFound();
-            order.OrderStatus = OrderStatus.Shipped;
-            _unitOfWork.Repository<Order>().Update(order);
-            _unitOfWork.Complete();
-            return RedirectToAction(nameof(Index));
-        }
-    }
+			return View(orders);
+		}
+		[HttpGet]
+		public IActionResult GetOrderDetails(int id)
+		{
+			var spec = new BaseSpacefications<Order>(O => (O.Id == id && O.OrderStatus == OrderStatus.Processing));
+			spec.Includes.Add(O => O.Merchant);
+			spec.Includes.Add(O => O.Warehouse);
+			spec.Includes.Add(o => o.OrderProducts);
+
+			var order = _unitOfWork.Repository<Order>().GetWithSpec(spec);
+			var qrCodeImage = GenerateQRCode(order);
+			ViewBag.QRCodeImage = qrCodeImage;
+			if (order is null)
+				return NotFound();
+			return View(order);
+		}
+		[HttpPost]
+		public IActionResult ConfirmOrder(int id)
+		{
+			var order = _unitOfWork.Repository<Order>().GetById(id);
+			if (order is null)
+				return NotFound();
+			order.OrderStatus = OrderStatus.Shipped;
+			_unitOfWork.Repository<Order>().Update(order);
+			_unitOfWork.Complete();
+			return RedirectToAction(nameof(Index));
+		}
+
+
+		private string GenerateQRCode(Order order)
+		{
+			string qrText = $"Order ID: {order.Id}\n" +
+				$"Customer: {order.Merchant.Name}\n" +
+				$"Total: {order.OrderStatus}\n" +
+				$"Status: {order.OrderDate}";
+
+
+
+			using (QRCodeGenerator qrGenerator = new())
+			using (QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrText, QRCodeGenerator.ECCLevel.Q))
+
+
+			using (QRCode qrCode = new QRCode(qrCodeData))
+			{
+				Bitmap qrCodeImage = qrCode.GetGraphic(20);
+
+				byte[] BitmapArray = qrCodeImage.ConvertBitmapToByteArray();
+
+
+
+				string Url = Convert.ToBase64String(BitmapArray);
+				return $"data:image/png;base64,{Url}";
+
+
+			}
+
+
+
+		}
+	}
+
 }
+
+
+
+
+
