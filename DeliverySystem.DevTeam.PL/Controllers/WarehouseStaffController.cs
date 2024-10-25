@@ -61,6 +61,7 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 			return View(order);
 		}
 		[HttpPost]
+		// View Model
 		public IActionResult ConfirmOrder(int id)
 		{
 			var order = _unitOfWork.Repository<Order>().GetById(id);
