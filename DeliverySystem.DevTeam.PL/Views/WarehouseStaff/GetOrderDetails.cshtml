@@ -1,9 +1,12 @@
 ﻿@model Order
-
+@inject IUnitOfWork _unitOfWork;
+@{
+	var deliverys = _unitOfWork.Repository<Delivery>().GetAll().ToList();
+}
 <style>
 	.qrcode img{
-		height:300px;
-		width=300px;
+		height:100px;
+		width:100px;
 	}
 </style>
 
@@ -13,7 +16,7 @@
 			<h1>Order Details</h1>
 		</div>
 		<div class="card-body">
-			<div class="Row">
+			<div class="row">
 				<div class="col-md-5">
 					<h5 class="card-title"> Order Number: @Model.Id</h5>
 					<p class="card-text"><strong>Merchant Name:</strong> @Model.Merchant.Name</p>
@@ -23,6 +26,7 @@
 				<div class="col-md-5 qrcode">
 					<h3>QR Code</h3>
 					<img src="@ViewBag.QRCodeImage" alt="QR Code for Order Details" />
+					<h4>@Model.Id</h4>
 				</div>
 			</div>
 			
@@ -53,7 +57,20 @@
 				<p><strong> SubTotal Price:</strong> @Model.SubTotal.ToString("C")</p>
 				<p><strong> Warehouse Commition:</strong> @Model.Warehouse.Commition.ToString("C")</p>
 				<p><strong> Total Price:</strong> @Model.Total.ToString("C")</p>
+				
 				<form method="post" class="menu-link px-5" asp-action="ConfirmOrder" asp-route-id="@Model.Id">
+
+
+					<div class=" mb-7">
+						<select asp-for="DeliveryId" class="form-select">
+							<option value="0">Select Delivery</option>
+							@foreach (var delivery in deliverys)
+							{
+								<option value="@delivery.Id">@delivery.Name</option> <!-- Adjust property names -->
+							}
+						</select>
+						<span class="text-danger" asp-validation-for="DeliveryId"></span>
+					</div>
 
 					<button class="btn btn-primary p-2" type="submit">Confirm Order</button>
 

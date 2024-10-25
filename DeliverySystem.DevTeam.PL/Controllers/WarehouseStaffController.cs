@@ -23,10 +23,13 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 	public class WarehouseStaffController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly IConfiguration _configuration;
 
-		public WarehouseStaffController(IUnitOfWork unitOfWork)
+		public WarehouseStaffController(IUnitOfWork unitOfWork,
+			IConfiguration configuration)
 		{
 			_unitOfWork = unitOfWork;
+			_configuration = configuration;
 		}
 		[HttpGet]
 		public IActionResult Index()
@@ -61,6 +64,7 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 		public IActionResult ConfirmOrder(int id)
 		{
 			var order = _unitOfWork.Repository<Order>().GetById(id);
+
 			if (order is null)
 				return NotFound();
 			order.OrderStatus = OrderStatus.Shipped;
@@ -72,10 +76,7 @@ namespace DeliverySystem.DevTeam.PL.Controllers
 
 		private string GenerateQRCode(Order order)
 		{
-			string qrText = $"Order ID: {order.Id}\n" +
-				$"Customer: {order.Merchant.Name}\n" +
-				$"Total: {order.OrderStatus}\n" +
-				$"Status: {order.OrderDate}";
+			string qrText = $"{_configuration["BaseUrl"]}/WarehouseStaff/GetOrderDetails/{order.Id}";
 
 
 
